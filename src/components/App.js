@@ -44,7 +44,7 @@ class App extends React.Component {
               <Route
                 path="/search"
                 render={props => {
-                  return <YelpSearchContainer saveLocation={this.saveLocation} />;
+                  return <YelpSearchContainer location={this.state.location.name} />;
                 }}
               />
               <Route

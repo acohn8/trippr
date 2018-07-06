@@ -1,5 +1,7 @@
 import React from 'react';
 import { Grid } from 'semantic-ui-react';
+import YelpSearchBar from './YelpSearchBar';
+import YelpHeader from './YelpHeader';
 
 class YelpSearchContainer extends React.Component {
   constructor(props) {
@@ -7,7 +9,12 @@ class YelpSearchContainer extends React.Component {
   }
 
   render() {
-    return <Grid.Column>this.props.location.name</Grid.Column>;
+    return (
+      <Grid.Column>
+        <YelpHeader location={this.props.location} />
+        <YelpSearchBar />
+      </Grid.Column>
+    );
   }
   // componentDidMount() {
   //   fetch(
