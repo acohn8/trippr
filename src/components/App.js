@@ -30,32 +30,31 @@ class App extends React.Component {
             return <Nav location={this.state.location.name} />;
           }}
         />
-        <Grid relaxed centered columns={2}>
-          <Grid.Row centered>
-            <Switch>
-              <Route
-                path="/home"
-                render={props => {
-                  return <TripContainer saveLocation={this.saveLocation} history={props.history} />;
-                }}
-              />
-              <Route
-                path="/search"
-                render={props => {
-                  return (
-                    <YelpSearchContainer saveLocation={this.saveLocation} />
-                  );
-                }}
-              />
-              <Route
-                path="/trips"
-                render={props => {
-                  return <UserContainer />;
-                }}
-              />
-            </Switch>
-          </Grid.Row>
-        </Grid>
+        <Switch>
+          <Route
+            path="/home"
+            render={props => {
+              return (
+                <TripContainer
+                  saveLocation={this.saveLocation}
+                  history={props.history}
+                />
+              );
+            }}
+          />
+          <Route
+            path="/search"
+            render={props => {
+              return <YelpSearchContainer saveLocation={this.saveLocation} />;
+            }}
+          />
+          <Route
+            path="/trips"
+            render={props => {
+              return <UserContainer />;
+            }}
+          />
+        </Switch>
       </div>
     );
   }

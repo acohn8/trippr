@@ -1,6 +1,7 @@
 import React from "react";
 import UserTrips from "./UserTrips";
 import RailsApi from "./RailsApi";
+import { Grid, Image } from "semantic-ui-react";
 
 class UserContainer extends React.Component {
   constructor(props) {
@@ -10,16 +11,12 @@ class UserContainer extends React.Component {
     };
   }
 
-  componentDidMount() {
+  componentDidMount = () => {
     RailsApi.getTrips().then(trips => this.setState({ trips: trips }));
-  }
+  };
 
   render() {
-    return (
-      <div>
-        <UserTrips trips={this.state.trips} />
-      </div>
-    );
+    return <UserTrips trips={this.state.trips} />;
   }
 }
 
