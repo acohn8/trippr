@@ -5,11 +5,11 @@ const YelpHeader = props => (
   <Grid.Row>
     {console.log(props)}
     <Header as="h1">
-      <Icon name="plane" />
+      <Icon name="food" />
       <Header.Content>
         What do you want to eat?
         <Header.Subheader>
-          Enter a restaurant or cusine to get the best food near {props.location}
+          Enter a restaurant or cusine to get the best food in and around {props.location}
         </Header.Subheader>
       </Header.Content>
     </Header>
