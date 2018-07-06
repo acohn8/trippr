@@ -6,7 +6,13 @@ class UserTrips extends React.Component {
   }
 
   render() {
-    return <div />;
+    return (
+      <div>
+        {this.props.trips.map(trip => {
+          trip.city;
+        })}
+      </div>
+    );
   }
 }
 

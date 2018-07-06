@@ -1,26 +1,24 @@
-import React from 'react';
-import { Grid, Container } from 'semantic-ui-react';
-import { Route, Switch, Redirect } from 'react-router-dom';
+import React from "react";
+import { Grid, Container } from "semantic-ui-react";
+import { Route, Switch, Redirect } from "react-router-dom";
 
-import Nav from './Nav';
-import TripContainer from './TripSearch/TripContainer';
-import UserContainer from './UserProfile/UserContainer';
-
-import api from '../api';
-import YelpSearchContainer from './YelpSearch/YelpSearchContainer';
+import Nav from "./Nav";
+import TripContainer from "./TripSearch/TripContainer";
+import UserContainer from "./UserProfile/UserContainer";
+import YelpSearchContainer from "./YelpSearch/YelpSearchContainer";
 
 class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { location: '' };
+    this.state = { location: "" };
   }
 
   saveLocation = userLocation => {
     this.setState({
       location: {
-        coords: userLocation.features['0'].center,
-        name: userLocation.features['0'].text,
-      },
+        coords: userLocation.features["0"].center,
+        name: userLocation.features["0"].text
+      }
     });
   };
 
@@ -44,7 +42,9 @@ class App extends React.Component {
               <Route
                 path="/search"
                 render={props => {
-                  return <YelpSearchContainer saveLocation={this.saveLocation} />;
+                  return (
+                    <YelpSearchContainer saveLocation={this.saveLocation} />
+                  );
                 }}
               />
               <Route
