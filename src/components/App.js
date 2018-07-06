@@ -1,8 +1,9 @@
-import React from 'react';
-import { Grid, Container } from 'semantic-ui-react';
+import React from "react";
+import { Grid, Container } from "semantic-ui-react";
 
-import Nav from './Nav';
-import TripContainer from './TripSearch/TripContainer';
+import Nav from "./Nav";
+import TripContainer from "./TripSearch/TripContainer";
+import api from "../api";
 
 const App = () => (
   <div>
