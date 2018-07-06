@@ -9,7 +9,7 @@ class UserTrips extends React.Component {
 
   render() {
     return (
-      <Card.Group divided>
+      <Card.Group>
         {this.props.trips.map(trip => {
           return (
             <Card>

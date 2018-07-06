@@ -1,27 +1,27 @@
-import React from 'react';
-import { Form, Input, Icon, Segment, List } from 'semantic-ui-react';
-import { withRouter } from 'react-router-dom';
-import _ from 'lodash';
-import AddressSearchResults from './AddressSearchResults';
+import React from "react";
+import { Form, Input, Icon, Segment, List } from "semantic-ui-react";
+import { withRouter } from "react-router-dom";
+import _ from "lodash";
+import SearchResults from "./SearchResults";
 
-class AddressSearchBar extends React.Component {
+class SearchBar extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      search: '',
+      search: "",
       results: [],
       locationFound: false,
-      loading: false,
+      loading: false
     };
   }
 
   componentDidUpdate() {
     if (this.state.locationFound === true) {
       this.setState({
-        search: '',
+        search: "",
         locationFound: false,
         loading: false,
-        results: [],
+        results: []
       });
     }
   }
@@ -42,7 +42,7 @@ class AddressSearchBar extends React.Component {
     fetch(
       `https://api.mapbox.com/geocoding/v5/mapbox.places/${
         this.state.search
-      }.json?access_token=pk.eyJ1IjoiYWRhbWNvaG4iLCJhIjoiY2pod2Z5ZWQzMDBtZzNxcXNvaW8xcGNiNiJ9.fHYsK6UNzqknxKuchhfp7A&country=us&autocomplete=true`,
+      }.json?access_token=pk.eyJ1IjoiYWRhbWNvaG4iLCJhIjoiY2pod2Z5ZWQzMDBtZzNxcXNvaW8xcGNiNiJ9.fHYsK6UNzqknxKuchhfp7A&country=us&autocomplete=true`
     )
       .then(res => res.json())
       .then(json => this.setState({ results: json.features.slice(0, 5) }));
@@ -52,22 +52,25 @@ class AddressSearchBar extends React.Component {
     fetch(
       `https://api.mapbox.com/geocoding/v5/mapbox.places/${
         this.state.search
-      }.json?access_token=pk.eyJ1IjoiYWRhbWNvaG4iLCJhIjoiY2pod2Z5ZWQzMDBtZzNxcXNvaW8xcGNiNiJ9.fHYsK6UNzqknxKuchhfp7A&country=us`,
+      }.json?access_token=pk.eyJ1IjoiYWRhbWNvaG4iLCJhIjoiY2pod2Z5ZWQzMDBtZzNxcXNvaW8xcGNiNiJ9.fHYsK6UNzqknxKuchhfp7A&country=us`
     )
       .then(res => res.json())
       .then(geoData => this.props.saveLocation(geoData))
-      .then(this.props.history.push('/search'));
+      .then(this.props.history.push("/new-trip"));
   };
 
   completeLoad = () => {
     this.setState({
       results: [],
-      locationFound: true,
+      locationFound: true
     });
   };
 
   handleChange = event => {
-    this.setState({ search: event.target.value }, _.debounce(this.searchforLocation, 200));
+    this.setState(
+      { search: event.target.value },
+      _.debounce(this.searchforLocation, 200)
+    );
   };
 
   startGeolocate = () => {
@@ -78,13 +81,16 @@ class AddressSearchBar extends React.Component {
     navigator.geolocation.getCurrentPosition(position => {
       this.setState(
         { search: `${position.coords.longitude}, ${position.coords.latitude}` },
-        this.fetchSearchLocation,
+        this.fetchSearchLocation
       );
     });
   };
 
   getLocationFromList = element => {
-    this.setState({ search: element.result.id, loading: true }, this.fetchSearchLocation);
+    this.setState(
+      { search: element.result.id, loading: true },
+      this.fetchSearchLocation
+    );
   };
 
   handleSubmit = event => {
@@ -124,7 +130,10 @@ class AddressSearchBar extends React.Component {
         {this.state.locationFound === false &&
           this.state.results.map(result => (
             <List selection key={result.id}>
-              <AddressSearchResults result={result} select={this.getLocationFromList} />
+              <SearchResults
+                result={result}
+                select={this.getLocationFromList}
+              />
             </List>
           ))}
       </Segment>
@@ -132,4 +141,4 @@ class AddressSearchBar extends React.Component {
   }
 }
 
-export default AddressSearchBar;
+export default SearchBar;
