@@ -36,7 +36,7 @@ class App extends React.Component {
               <Route
                 path="/home"
                 render={props => {
-                  return <TripContainer saveLocation={this.saveLocation} />;
+                  return <TripContainer saveLocation={this.saveLocation} history={props.history} />;
                 }}
               />
               <Route

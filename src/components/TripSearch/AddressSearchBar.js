@@ -1,5 +1,6 @@
 import React from 'react';
 import { Form, Input, Icon, Segment, List } from 'semantic-ui-react';
+import { withRouter } from 'react-router-dom';
 import _ from 'lodash';
 import AddressSearchResults from './AddressSearchResults';
 
@@ -51,7 +52,8 @@ class AddressSearchBar extends React.Component {
     )
       .then(res => res.json())
       .then(geoData => this.props.saveLocation(geoData))
-      .then(this.completeLoad);
+      .then(this.completeLoad)
+      .then(this.props.history.push('/search'));
   };
 
   completeLoad = () => {
