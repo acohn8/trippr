@@ -1,7 +1,7 @@
 import React from 'react';
 import { Form, Input, Icon, Segment, List } from 'semantic-ui-react';
 import _ from 'lodash';
-import SearchResults from './SearchResults';
+import AddressSearchResults from './AddressSearchResults';
 
 class AddressSearchBar extends React.Component {
   constructor(props) {
@@ -93,7 +93,11 @@ class AddressSearchBar extends React.Component {
         <div>
           {this.state.results.map(result => (
             <List selection>
-              <SearchResults key={result.id} result={result} select={this.getLocationFromList} />
+              <AddressSearchResults
+                key={result.id}
+                result={result}
+                select={this.getLocationFromList}
+              />
             </List>
           ))}
         </div>
@@ -133,7 +137,11 @@ class AddressSearchBar extends React.Component {
         {this.state.locationFound === false &&
           this.state.results.map(result => (
             <List selection>
-              <SearchResults key={result.id} result={result} select={this.getLocationFromList} />
+              <AddressSearchResults
+                key={result.id}
+                result={result}
+                select={this.getLocationFromList}
+              />
             </List>
           ))}
       </Segment>
