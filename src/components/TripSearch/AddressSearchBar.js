@@ -26,6 +26,10 @@ class AddressSearchBar extends React.Component {
     }
   }
 
+  componentWillUnmount() {
+    this.completeLoad();
+  }
+
   searchforLocation = () => {
     if (this.state.search.length > 1) {
       this.fetchLocationFrag();
@@ -52,7 +56,6 @@ class AddressSearchBar extends React.Component {
     )
       .then(res => res.json())
       .then(geoData => this.props.saveLocation(geoData))
-      .then(this.completeLoad)
       .then(this.props.history.push('/search'));
   };
 
@@ -89,24 +92,6 @@ class AddressSearchBar extends React.Component {
     this.setState({ loading: true }, this.fetchSearchLocation);
   };
 
-  returnList = () => {
-    if (this.state.locationFound === false) {
-      return (
-        <div>
-          {this.state.results.map(result => (
-            <List selection>
-              <AddressSearchResults
-                key={result.id}
-                result={result}
-                select={this.getLocationFromList}
-              />
-            </List>
-          ))}
-        </div>
-      );
-    }
-  };
-
   render() {
     return (
       <Segment basic>
@@ -138,12 +123,8 @@ class AddressSearchBar extends React.Component {
         </Form>
         {this.state.locationFound === false &&
           this.state.results.map(result => (
-            <List selection>
-              <AddressSearchResults
-                key={result.id}
-                result={result}
-                select={this.getLocationFromList}
-              />
+            <List selection key={result.id}>
+              <AddressSearchResults result={result} select={this.getLocationFromList} />
             </List>
           ))}
       </Segment>

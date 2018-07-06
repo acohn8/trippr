@@ -1,5 +1,10 @@
 import React from 'react';
-import { Grid } from 'semantic-ui-react';
+import { Grid, Card, Header } from 'semantic-ui-react';
+import YelpSearchBar from './YelpSearchBar';
+import YelpHeader from './YelpHeader';
+import YelpSearchCard from './YelpSearchCard';
+
+const cards = [{}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}];
 
 class YelpSearchContainer extends React.Component {
   constructor(props) {
@@ -7,7 +12,22 @@ class YelpSearchContainer extends React.Component {
   }
 
   render() {
-    return <Grid.Column>this.props.location.name</Grid.Column>;
+    return (
+      <div>
+        <Grid.Column>
+          <Grid.Row>
+            <YelpHeader location={this.props.location} />
+          </Grid.Row>
+          <Grid.Row>
+            <YelpSearchBar />
+          </Grid.Row>
+        </Grid.Column>
+        <Grid.Row>
+          <Header as="h2">Results</Header>
+          <Card.Group itemsPerRow={5}>{cards.map(card => <YelpSearchCard />)}</Card.Group>
+        </Grid.Row>
+      </div>
+    );
   }
   // componentDidMount() {
   //   fetch(

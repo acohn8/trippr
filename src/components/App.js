@@ -1,24 +1,24 @@
-import React from "react";
-import { Grid, Container } from "semantic-ui-react";
-import { Route, Switch, Redirect } from "react-router-dom";
+import React from 'react';
+import { Grid, Container } from 'semantic-ui-react';
+import { Route, Switch, Redirect } from 'react-router-dom';
 
-import Nav from "./Nav";
-import TripContainer from "./TripSearch/TripContainer";
-import UserContainer from "./UserProfile/UserContainer";
-import YelpSearchContainer from "./YelpSearch/YelpSearchContainer";
+import Nav from './Nav';
+import TripContainer from './TripSearch/TripContainer';
+import UserContainer from './UserProfile/UserContainer';
+import YelpSearchContainer from './YelpSearch/YelpSearchContainer';
 
 class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { location: "" };
+    this.state = { location: '' };
   }
 
   saveLocation = userLocation => {
     this.setState({
       location: {
-        coords: userLocation.features["0"].center,
-        name: userLocation.features["0"].text
-      }
+        coords: userLocation.features['0'].center,
+        name: userLocation.features['0'].text,
+      },
     });
   };
 
@@ -34,12 +34,7 @@ class App extends React.Component {
           <Route
             path="/home"
             render={props => {
-              return (
-                <TripContainer
-                  saveLocation={this.saveLocation}
-                  history={props.history}
-                />
-              );
+              return <TripContainer saveLocation={this.saveLocation} history={props.history} />;
             }}
           />
           <Route
