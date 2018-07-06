@@ -7,7 +7,7 @@ import TripHeader from './TripHeader';
 const TripContainer = props => (
   <Grid.Column>
     <TripHeader />
-    <AddressSearchBar saveLocation={props.saveLocation} />
+    <AddressSearchBar saveLocation={props.saveLocation} history={props.history} />
   </Grid.Column>
 );
 
