@@ -9,17 +9,24 @@ const cards = [{}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}];
 class YelpSearchContainer extends React.Component {
   constructor(props) {
     super(props);
+    this.state = { userSelection: '' };
+    console.log(this.props);
   }
+
+  finalizeSelection = value => {
+    // console.log(value);
+    // this.setState({ userSelection: value });
+  };
 
   render() {
     return (
       <div>
         <Grid.Column>
           <Grid.Row>
-            <YelpHeader location={this.props.location} />
+            <YelpHeader location={this.props.location} finalizeSelection={this.finalizeSelection} />
           </Grid.Row>
           <Grid.Row>
-            <YelpSearchBar />
+            <YelpSearchBar location={this.props.location} />
           </Grid.Row>
         </Grid.Column>
         <Grid.Row>

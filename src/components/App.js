@@ -1,26 +1,28 @@
-import React from "react";
-import { Grid, Container } from "semantic-ui-react";
-import { Route, Switch, Redirect } from "react-router-dom";
+import React from 'react';
+import { Grid, Container } from 'semantic-ui-react';
+import { Route, Switch, withRouter } from 'react-router-dom';
 
-import Nav from "./Nav";
-import RailsApi from "./RailsApi";
-import SearchContainer from "./LocationSearch/SearchContainer";
-import UserContainer from "./UserProfile/UserContainer";
-import NewTripContainer from "./TripCreation/NewTripContainer";
-import YelpSearchContainer from "./YelpSearch/YelpSearchContainer";
+import Nav from './Nav';
+import RailsApi from './RailsApi';
+import SearchContainer from './LocationSearch/SearchContainer';
+import UserContainer from './UserProfile/UserContainer';
+import NewTripContainer from './TripCreation/NewTripContainer';
+import YelpSearchContainer from './YelpSearch/YelpSearchContainer';
 
 class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { newTripLocation: "", trips: [] };
+    this.state = { newTripLocation: '', trips: [] };
   }
 
   setTripLocationState = userLocation => {
     this.setState({
-      newTripLocation: {
-        coords: userLocation.features["0"].center,
-        name: userLocation.features["0"].text
-      }
+      newTripLocation: [
+        {
+          coords: userLocation.features['0'].center,
+          name: userLocation.features['0'].text,
+        },
+      ],
     });
   };
 
@@ -30,9 +32,10 @@ class App extends React.Component {
       .then(res => res.json())
       .then(trip =>
         this.setState({
-          trips: [...this.state.trips, trip]
-        })
-      );
+          trips: [...this.state.trips, trip],
+        }),
+      )
+      .then(this.props.history.push('/add-venues'));
   };
 
   componentDidMount() {
@@ -52,10 +55,7 @@ class App extends React.Component {
             path="/home"
             render={props => {
               return (
-                <SearchContainer
-                  saveLocation={this.setTripLocationState}
-                  history={props.history}
-                />
+                <SearchContainer saveLocation={this.setTripLocationState} history={props.history} />
               );
             }}
           />
@@ -73,8 +73,15 @@ class App extends React.Component {
                 <NewTripContainer
                   location={this.state.newTripLocation}
                   saveTrip={this.saveTrip}
+                  history={props.history}
                 />
               );
+            }}
+          />
+          <Route
+            path="/add-venues"
+            render={props => {
+              return <YelpSearchContainer location={this.state.newTripLocation} />;
             }}
           />
         </Switch>
@@ -82,4 +89,4 @@ class App extends React.Component {
     );
   }
 }
-export default App;
+export default withRouter(App);
