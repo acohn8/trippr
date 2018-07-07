@@ -11,7 +11,7 @@ import YelpSearchContainer from './YelpSearch/YelpSearchContainer';
 class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { newTripLocation: '', trips: [] };
+    this.state = { newTripLocation: [], trips: [] };
   }
 
   setTripLocationState = userLocation => {
