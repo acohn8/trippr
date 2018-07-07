@@ -1,6 +1,6 @@
 import React from "react";
 import { Grid, Container } from "semantic-ui-react";
-import { Route, Switch, Redirect } from "react-router-dom";
+import { Route, Switch, Redirect, withRouter } from "react-router-dom";
 
 import Nav from "./Nav";
 import RailsApi from "./RailsApi";
@@ -12,7 +12,10 @@ import YelpSearchContainer from "./YelpSearch/YelpSearchContainer";
 class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { newTripLocation: "", trips: [] };
+    this.state = {
+      newTripLocation: "",
+      trips: []
+    };
   }
 
   setTripLocationState = userLocation => {
@@ -33,6 +36,7 @@ class App extends React.Component {
           trips: [...this.state.trips, trip]
         })
       );
+    this.props.history.push("/yelp-search");
   };
 
   componentDidMount() {
@@ -59,11 +63,16 @@ class App extends React.Component {
               );
             }}
           />
-
           <Route
             path="/trips"
             render={props => {
               return <UserContainer trips={this.state.trips} />;
+            }}
+          />
+          <Route
+            path="/yelp-search"
+            render={props => {
+              return <YelpSearchContainer />;
             }}
           />
           <Route
@@ -82,4 +91,4 @@ class App extends React.Component {
     );
   }
 }
-export default App;
+export default withRouter(App);
