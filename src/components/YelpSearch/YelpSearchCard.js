@@ -36,7 +36,7 @@ const YelpSearchCard = ({ result }) => (
           <List.Icon name="phone" verticalAlign="middle" />
           <List.Content>
             <List.Header>Phone</List.Header>
-            <List.Description>{result.phone}</List.Description>
+            <List.Description>{result.display_phone}</List.Description>
           </List.Content>
         </List.Item>
       </List>
