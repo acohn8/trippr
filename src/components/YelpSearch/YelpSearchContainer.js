@@ -11,6 +11,7 @@ class YelpSearchContainer extends React.Component {
   }
 
   setResults = results => {
+    console.log(results);
     this.setState({ results });
   };
 
@@ -27,7 +28,11 @@ class YelpSearchContainer extends React.Component {
               <Card.Group stackable itemsPerRow={5}>
                 {this.state.results.length > 0 &&
                   this.state.results.map(result => (
-                    <YelpSearchCard result={result} key={result.id} />
+                    <YelpSearchCard
+                      result={result}
+                      coords={this.props.location[0].coords}
+                      key={result.id}
+                    />
                   ))}
               </Card.Group>
             </Grid.Column>
