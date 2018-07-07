@@ -1,6 +1,5 @@
-import React from "react";
-import UserTrips from "./UserTrips";
-import { Grid, Image } from "semantic-ui-react";
+import React from 'react';
+import UserTrips from './UserTrips';
 
 class UserContainer extends React.Component {
   constructor(props) {

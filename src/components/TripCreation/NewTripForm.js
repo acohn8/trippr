@@ -1,27 +1,26 @@
-import React from "react";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
-import moment from "moment";
-import { Form } from "semantic-ui-react";
+import React from 'react';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import { Form } from 'semantic-ui-react';
 
 class NewTripForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       startDate: null,
-      endDate: null
+      endDate: null,
     };
   }
 
   handleStartDate = date => {
     this.setState({
-      startDate: date
+      startDate: date,
     });
   };
 
   handleEndDate = date => {
     this.setState({
-      endDate: date
+      endDate: date,
     });
   };
 
@@ -29,7 +28,7 @@ class NewTripForm extends React.Component {
     e.preventDefault();
     let formData = {
       start_date: this.state.startDate,
-      end_date: this.state.endDate
+      end_date: this.state.endDate,
     };
     this.props.saveTrip(formData);
   };

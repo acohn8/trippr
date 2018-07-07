@@ -1,6 +1,5 @@
 import React from "react";
-import { Grid, Container } from "semantic-ui-react";
-import { Route, Switch, Redirect, withRouter } from "react-router-dom";
+import { Route, Switch, withRouter } from "react-router-dom";
 
 import Nav from "./Nav";
 import RailsApi from "./RailsApi";
@@ -12,18 +11,17 @@ import YelpSearchContainer from "./YelpSearch/YelpSearchContainer";
 class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      newTripLocation: "",
-      trips: []
-    };
+    this.state = { newTripLocation: [], trips: [] };
   }
 
   setTripLocationState = userLocation => {
     this.setState({
-      newTripLocation: {
-        coords: userLocation.features["0"].center,
-        name: userLocation.features["0"].text
-      }
+      newTripLocation: [
+        {
+          coords: userLocation.features["0"].center,
+          name: userLocation.features["0"].text
+        }
+      ]
     });
   };
 
@@ -35,8 +33,8 @@ class App extends React.Component {
         this.setState({
           trips: [...this.state.trips, trip]
         })
-      );
-    this.props.history.push("/yelp-search");
+      )
+      .then(this.props.history.push("/add-venues"));
   };
 
   componentDidMount() {
@@ -63,16 +61,11 @@ class App extends React.Component {
               );
             }}
           />
+
           <Route
             path="/trips"
             render={props => {
               return <UserContainer trips={this.state.trips} />;
-            }}
-          />
-          <Route
-            path="/yelp-search"
-            render={props => {
-              return <YelpSearchContainer />;
             }}
           />
           <Route
@@ -82,7 +75,16 @@ class App extends React.Component {
                 <NewTripContainer
                   location={this.state.newTripLocation}
                   saveTrip={this.saveTrip}
+                  history={props.history}
                 />
+              );
+            }}
+          />
+          <Route
+            path="/add-venues"
+            render={props => {
+              return (
+                <YelpSearchContainer location={this.state.newTripLocation} />
               );
             }}
           />
