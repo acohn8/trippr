@@ -1,12 +1,12 @@
-import React from 'react';
-import { Route, Switch, withRouter } from 'react-router-dom';
+import React from "react";
+import { Route, Switch, withRouter } from "react-router-dom";
 
-import Nav from './Nav';
-import RailsApi from './RailsApi';
-import SearchContainer from './LocationSearch/SearchContainer';
-import UserContainer from './UserProfile/UserContainer';
-import NewTripContainer from './TripCreation/NewTripContainer';
-import YelpSearchContainer from './YelpSearch/YelpSearchContainer';
+import Nav from "./Nav";
+import RailsApi from "./RailsApi";
+import SearchContainer from "./LocationSearch/SearchContainer";
+import UserContainer from "./UserProfile/UserContainer";
+import NewTripContainer from "./TripCreation/NewTripContainer";
+import YelpSearchContainer from "./YelpSearch/YelpSearchContainer";
 
 class App extends React.Component {
   constructor(props) {
@@ -18,10 +18,10 @@ class App extends React.Component {
     this.setState({
       newTripLocation: [
         {
-          coords: userLocation.features['0'].center,
-          name: userLocation.features['0'].text,
-        },
-      ],
+          coords: userLocation.features["0"].center,
+          name: userLocation.features["0"].text
+        }
+      ]
     });
   };
 
@@ -31,10 +31,10 @@ class App extends React.Component {
       .then(res => res.json())
       .then(trip =>
         this.setState({
-          trips: [...this.state.trips, trip],
-        }),
+          trips: [...this.state.trips, trip]
+        })
       )
-      .then(this.props.history.push('/add-venues'));
+      .then(this.props.history.push("/add-venues"));
   };
 
   componentDidMount() {
@@ -54,7 +54,10 @@ class App extends React.Component {
             path="/home"
             render={props => {
               return (
-                <SearchContainer saveLocation={this.setTripLocationState} history={props.history} />
+                <SearchContainer
+                  saveLocation={this.setTripLocationState}
+                  history={props.history}
+                />
               );
             }}
           />
@@ -80,7 +83,9 @@ class App extends React.Component {
           <Route
             path="/add-venues"
             render={props => {
-              return <YelpSearchContainer location={this.state.newTripLocation} />;
+              return (
+                <YelpSearchContainer location={this.state.newTripLocation} />
+              );
             }}
           />
         </Switch>
