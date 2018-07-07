@@ -1,39 +1,30 @@
 import React from 'react';
 import _ from 'lodash';
-import { Input, Form, Segment, Card } from 'semantic-ui-react';
-import YelpSearchCard from './YelpSearchCard';
+import { Input, Form, Segment } from 'semantic-ui-react';
 
 class YelpSearchBar extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       search: '',
-      results: [],
       locationFound: false,
       loading: false,
     };
   }
 
-  componentDidUpdate() {
-    if (this.state.locationFound === true) {
-      this.setState({
-        search: '',
-        locationFound: false,
-        loading: false,
-        results: [],
-      });
-    }
-  }
-
   componentWillUnmount() {
-    this.completeLoad();
+    this.setState({
+      search: '',
+      locationFound: false,
+      loading: false,
+    });
   }
 
   searchforLocation = () => {
-    if (this.state.search.length > 1) {
+    if (this.state.search.length > 0) {
       this.fetchLocationFrag();
     } else {
-      this.setState({ results: [] });
+      this.setState({ search: '' });
     }
   };
 
@@ -50,14 +41,7 @@ class YelpSearchBar extends React.Component {
       },
     )
       .then(res => res.json())
-      .then(json => this.setState({ results: json.businesses.slice(0, 15) }));
-  };
-
-  completeLoad = () => {
-    this.setState({
-      results: [],
-      locationFound: true,
-    });
+      .then(json => this.props.setResults(json.businesses.slice(0, 15)));
   };
 
   handleChange = event => {
@@ -69,24 +53,16 @@ class YelpSearchBar extends React.Component {
       <Segment basic>
         <Form onSubmit={this.handleSubmit}>
           <Form.Field>
-            {this.state.loading === true ? (
-              <Input loading placeholder="Search..." />
-            ) : (
-              <Input
-                icon
-                placeholder="Search..."
-                onChange={this.handleChange}
-                value={this.state.search}
-              >
-                <input />
-              </Input>
-            )}
+            <Input
+              icon
+              placeholder="Search..."
+              onChange={this.handleChange}
+              value={this.state.search}
+            >
+              <input />
+            </Input>
           </Form.Field>
         </Form>
-        <Card.Group itemsPerRow={5}>
-          {this.state.locationFound === false &&
-            this.state.results.map(result => <YelpSearchCard result={result} />)}
-        </Card.Group>
       </Segment>
     );
   }

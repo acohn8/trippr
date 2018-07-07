@@ -1,5 +1,4 @@
 import React from 'react';
-import { Grid, Container } from 'semantic-ui-react';
 import { Route, Switch, withRouter } from 'react-router-dom';
 
 import Nav from './Nav';

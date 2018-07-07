@@ -1,8 +1,10 @@
 import React from 'react';
-import { Card, Icon, Image, List, Label } from 'semantic-ui-react';
+import { Card, Icon, Image, List } from 'semantic-ui-react';
+import _ from 'lodash';
 
 const YelpSearchCard = ({ result }) => (
   <Card>
+    {console.log(result)}
     <Image
       src={result.image_url}
       label={{
@@ -18,18 +20,16 @@ const YelpSearchCard = ({ result }) => (
       </Card.Header>
 
       <Card.Meta>
-        <Icon color="yellow" name="star" />
-        <Icon color="yellow" name="star" />
-        <Icon color="yellow" name="star" />
-        <Icon color="yellow" name="star" />
-        <Icon color="yellow" name="star half full" />
+        {_.times(Math.round(result.rating), () => <Icon color="yellow" name="star" />)}
       </Card.Meta>
       <List>
         <List.Item>
           <List.Icon name="pin" verticalAlign="middle" />
           <List.Content>
             <List.Header>Address</List.Header>
-            <List.Description>{`${result.address1} ${result.city}`}</List.Description>
+            <List.Description>
+              {`${result.location.address1} ${result.location.city}`}
+            </List.Description>
           </List.Content>
         </List.Item>
         <List.Item>

@@ -1,20 +1,18 @@
-import React from "react";
-import { Grid, Segment } from "semantic-ui-react";
+import React from 'react';
+import { Grid, Segment } from 'semantic-ui-react';
 
-import SearchBar from "./SearchBar";
-import SearchHeader from "./SearchHeader";
+import SearchBar from './SearchBar';
+import SearchHeader from './SearchHeader';
 
 const SearchContainer = props => (
-  <Grid columns="equal">
-    <Grid.Column />
-    <Grid.Column width={8}>
-      <Segment>
+  <Segment>
+    <Grid centered columns="equal">
+      <Grid.Column width={8}>
         <SearchHeader />
         <SearchBar saveLocation={props.saveLocation} history={props.history} />
-      </Segment>
-    </Grid.Column>
-    <Grid.Column />
-  </Grid>
+      </Grid.Column>
+    </Grid>
+  </Segment>
 );
 
 export default SearchContainer;

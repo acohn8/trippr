@@ -1,7 +1,6 @@
 import React from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import moment from 'moment';
 import { Form } from 'semantic-ui-react';
 
 class NewTripForm extends React.Component {
