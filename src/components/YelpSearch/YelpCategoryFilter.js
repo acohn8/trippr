@@ -40,6 +40,8 @@ class YelpCategoryFilter extends React.Component {
     this.props.getYelpResults(data.value);
   };
 
+  showBusiness = (e, data) => {};
+
   render() {
     {
       if (this.state.loading === false) {

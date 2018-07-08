@@ -9,7 +9,7 @@ import distance from '@turf/distance';
 class YelpSearchContainer extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { results: [], loading: false };
+    this.state = { results: [], shownBusiness: '', loading: false };
   }
 
   setResults = results => {
@@ -42,6 +42,10 @@ class YelpSearchContainer extends React.Component {
       .then(json => this.setResults(json.businesses));
   };
 
+  showBusinessPage = business => {
+    this.setState({ shownBusiness: business });
+  };
+
   render() {
     return (
       <Segment>
@@ -57,7 +61,7 @@ class YelpSearchContainer extends React.Component {
                 {this.state.results.map(result => (
                   <YelpSearchCard
                     result={result}
-                    coords={this.props.location[0].coords}
+                    showBusinessPage={this.showBusinessPage}
                     key={result.id}
                   />
                 ))}
