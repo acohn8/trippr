@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, List, Image, Modal, Loader, Grid } from 'semantic-ui-react';
+import { Button, List, Image, Modal, Loader, Grid, Card } from 'semantic-ui-react';
 
 class YelpBusinessPage extends React.Component {
   constructor(props) {
@@ -25,12 +25,7 @@ class YelpBusinessPage extends React.Component {
   setInfo = result => {
     this.setState({
       name: result.name,
-      phone: result.display_phone,
-      address: result.display_address,
-      photos: result.photos.slice(0, 4),
-      hours: result.hours,
-      price: result.price,
-      rating: result.rating,
+      photos: result.photos,
       loaded: true,
     });
   };
@@ -42,7 +37,7 @@ class YelpBusinessPage extends React.Component {
           <Modal
             trigger={
               <Button basic floated="right" onClick={this.handleClick}>
-                Details
+                Photos
               </Button>
             }
           >
@@ -50,46 +45,19 @@ class YelpBusinessPage extends React.Component {
           </Modal>
         );
       } else {
-        console.log(this.state);
         return (
           <Modal
             trigger={
               <Button basic floated="right" onClick={this.handleClick}>
-                Details
+                Photos
               </Button>
             }
           >
             <Modal.Header>{this.state.name}</Modal.Header>
-            <Modal.Content image>
-              {this.state.photos
-                .slice(0, 4)
-                .map(photo => <Image wrapped size="medium" src={photo} />)}
-              <Modal.Description>
-                <Grid>
-                  <List>
-                    <List.Item>
-                      <List.Icon name="users" />
-                      <List.Content>Semantic UI</List.Content>
-                    </List.Item>
-                    <List.Item>
-                      <List.Icon name="marker" />
-                      <List.Content>New York, NY</List.Content>
-                    </List.Item>
-                    <List.Item>
-                      <List.Icon name="mail" />
-                      <List.Content>
-                        <a href="mailto:jack@semantic-ui.com">jack@semantic-ui.com</a>
-                      </List.Content>
-                    </List.Item>
-                    <List.Item>
-                      <List.Icon name="linkify" />
-                      <List.Content>
-                        <a href="http://www.semantic-ui.com">semantic-ui.com</a>
-                      </List.Content>
-                    </List.Item>
-                  </List>
-                </Grid>
-              </Modal.Description>
+            <Modal.Content>
+              <Card.Group centered itemsPerRow={3}>
+                {this.state.photos.map(photo => <Card image={photo} />)}
+              </Card.Group>
             </Modal.Content>
           </Modal>
         );
