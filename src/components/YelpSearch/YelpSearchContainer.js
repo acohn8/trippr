@@ -4,7 +4,7 @@ import YelpSearchBar from './YelpSearchBar';
 import YelpHeader from './YelpHeader';
 import YelpSearchCard from './YelpSearchCard';
 import YelpCategoryFilter from './YelpCategoryFilter';
-import YelpSort from './YelpSort';
+import distance from '@turf/distance';
 
 class YelpSearchContainer extends React.Component {
   constructor(props) {
@@ -13,7 +13,16 @@ class YelpSearchContainer extends React.Component {
   }
 
   setResults = results => {
-    this.setState({ results: results, loading: false });
+    const sortedResults = results.slice();
+    sortedResults.map(result => {
+      const to = [result.coordinates.longitude, result.coordinates.latitude];
+      const from = this.props.location[0].coords;
+      const options = { units: 'miles' };
+      const userDistance = distance(from, to, options);
+      result.distance = userDistance;
+    });
+    sortedResults.sort((a, b) => a.distance - b.distance);
+    this.setState({ results: sortedResults, loading: false });
   };
 
   getYelpResults = category => {
@@ -33,16 +42,6 @@ class YelpSearchContainer extends React.Component {
       .then(json => this.setResults(json.businesses));
   };
 
-  sortResults = (event, data) => {
-    this.setState({ loading: true }, this.sortResultsByRating);
-  };
-
-  sortResultsByRating = () => {
-    const resultsToSort = this.state.results.slice();
-    const sorted = resultsToSort.sort((a, b) => b.rating - a.rating);
-    this.setState({ results: sorted, loading: false });
-  };
-
   render() {
     return (
       <Segment>
@@ -50,7 +49,6 @@ class YelpSearchContainer extends React.Component {
           <Grid.Column width={8}>
             <YelpHeader location={this.props.location} finalizeSelection={this.finalizeSelection} />
             <YelpCategoryFilter getYelpResults={this.getYelpResults} />
-            {this.state.results.length > 0 && <YelpSort sortResults={this.sortResults} />}
             {this.state.loading === true && <Loader active inline="centered" />}
           </Grid.Column>
           <Grid.Row columns={1}>
