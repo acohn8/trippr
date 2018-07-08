@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid, Card, Segment, Loader, Form } from 'semantic-ui-react';
+import { Grid, Card, Segment, Loader, Form, Item } from 'semantic-ui-react';
 import YelpSearchBar from './YelpSearchBar';
 import YelpHeader from './YelpHeader';
 import YelpSearchCard from './YelpSearchCard';
@@ -57,7 +57,7 @@ class YelpSearchContainer extends React.Component {
           </Grid.Column>
           <Grid.Row columns={1}>
             <Grid.Column>
-              <Card.Group stackable itemsPerRow={5}>
+              <Item.Group divided>
                 {this.state.results.map(result => (
                   <YelpSearchCard
                     result={result}
@@ -65,7 +65,7 @@ class YelpSearchContainer extends React.Component {
                     key={result.id}
                   />
                 ))}
-              </Card.Group>
+              </Item.Group>
             </Grid.Column>
           </Grid.Row>
         </Grid>

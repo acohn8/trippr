@@ -1,10 +1,10 @@
 import React from 'react';
-import { Button, List, Image, Modal } from 'semantic-ui-react';
+import { Button, List, Image, Modal, Loader, Grid } from 'semantic-ui-react';
 
 class YelpBusinessPage extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = { loaded: false };
   }
 
   handleClick = () => {
@@ -23,51 +23,78 @@ class YelpBusinessPage extends React.Component {
   };
 
   setInfo = result => {
-    console.log(result);
     this.setState({
       name: result.name,
       phone: result.display_phone,
       address: result.display_address,
-      photos: result.photos,
+      photos: result.photos.slice(0, 4),
       hours: result.hours,
       price: result.price,
       rating: result.rating,
+      loaded: true,
     });
   };
 
   render() {
-    return (
-      <Modal trigger={<Button onClick={this.handleClick}>Details</Button>}>
-        <Modal.Header>{this.state.name}</Modal.Header>
-        <Modal.Content image>
-          <Image wrapped size="medium" src="/images/avatar/large/rachel.png" />
-          <Modal.Description>
-            <List>
-              <List.Item>
-                <List.Icon name="users" />
-                <List.Content>Semantic UI</List.Content>
-              </List.Item>
-              <List.Item>
-                <List.Icon name="marker" />
-                <List.Content>New York, NY</List.Content>
-              </List.Item>
-              <List.Item>
-                <List.Icon name="mail" />
-                <List.Content>
-                  <a href="mailto:jack@semantic-ui.com">jack@semantic-ui.com</a>
-                </List.Content>
-              </List.Item>
-              <List.Item>
-                <List.Icon name="linkify" />
-                <List.Content>
-                  <a href="http://www.semantic-ui.com">semantic-ui.com</a>
-                </List.Content>
-              </List.Item>
-            </List>
-          </Modal.Description>
-        </Modal.Content>
-      </Modal>
-    );
+    {
+      if (this.state.loaded === false) {
+        return (
+          <Modal
+            trigger={
+              <Button basic floated="right" onClick={this.handleClick}>
+                Details
+              </Button>
+            }
+          >
+            <Loader active inline="centered" />
+          </Modal>
+        );
+      } else {
+        console.log(this.state);
+        return (
+          <Modal
+            trigger={
+              <Button basic floated="right" onClick={this.handleClick}>
+                Details
+              </Button>
+            }
+          >
+            <Modal.Header>{this.state.name}</Modal.Header>
+            <Modal.Content image>
+              {this.state.photos
+                .slice(0, 4)
+                .map(photo => <Image wrapped size="medium" src={photo} />)}
+              <Modal.Description>
+                <Grid>
+                  <List>
+                    <List.Item>
+                      <List.Icon name="users" />
+                      <List.Content>Semantic UI</List.Content>
+                    </List.Item>
+                    <List.Item>
+                      <List.Icon name="marker" />
+                      <List.Content>New York, NY</List.Content>
+                    </List.Item>
+                    <List.Item>
+                      <List.Icon name="mail" />
+                      <List.Content>
+                        <a href="mailto:jack@semantic-ui.com">jack@semantic-ui.com</a>
+                      </List.Content>
+                    </List.Item>
+                    <List.Item>
+                      <List.Icon name="linkify" />
+                      <List.Content>
+                        <a href="http://www.semantic-ui.com">semantic-ui.com</a>
+                      </List.Content>
+                    </List.Item>
+                  </List>
+                </Grid>
+              </Modal.Description>
+            </Modal.Content>
+          </Modal>
+        );
+      }
+    }
   }
 }
 
