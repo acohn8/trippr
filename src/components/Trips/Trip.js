@@ -1,4 +1,7 @@
 import React from "react";
+import { Segment, Image, Header, Divider, Button } from "semantic-ui-react";
+import Moment from "react-moment";
+import BookmarksContainer from "./BookmarksContainer";
 
 class Trip extends React.Component {
   constructor(props) {
@@ -17,8 +20,18 @@ class Trip extends React.Component {
   };
 
   render() {
-    console.log(this.props.trips);
-    return <div>{this.state.trip.city}</div>;
+    return (
+      <Segment>
+        <Image src={this.state.trip.image} size="small" floated="right" />
+        <p>
+          <Header as="h1">{this.state.trip.city}</Header>
+          <Moment date={this.state.trip.start_date} format="ddd MMM D, YYYY " />
+          - <Moment date={this.state.trip.end_date} format="ddd MMM D, YYYY" />
+        </p>
+        <Button primary>Add Restraunts</Button>
+        <BookmarksContainer />
+      </Segment>
+    );
   }
 }
 
