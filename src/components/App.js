@@ -62,7 +62,7 @@ class App extends React.Component {
               return (
                 <div>
                   {this.state.error === true && (
-                    <Error message={'Location could not be found, search again'} />
+                    <Error message={'Location could not be found, search again'} color={'red'} />
                   )}
                   <SearchContainer
                     saveLocation={this.setTripLocationState}

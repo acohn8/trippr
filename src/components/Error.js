@@ -1,10 +1,10 @@
 import React from 'react';
 import { Message } from 'semantic-ui-react';
 
-const Error = ({ message }) => (
-  <Message negative>
+const Error = props => (
+  <Message color={props.color}>
     <Message.Header>Uh oh...</Message.Header>
-    <p>{message}</p>
+    <p>{props.message}</p>
   </Message>
 );
 

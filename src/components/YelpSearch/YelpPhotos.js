@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, List, Image, Modal, Loader, Grid, Card } from 'semantic-ui-react';
+import { Button, Modal, Loader, Card } from 'semantic-ui-react';
 
 class YelpPhotos extends React.Component {
   constructor(props) {

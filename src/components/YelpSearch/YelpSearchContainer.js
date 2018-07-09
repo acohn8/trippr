@@ -1,14 +1,16 @@
 import React from 'react';
-import { Grid, Card, Segment, Loader, Form, Item } from 'semantic-ui-react';
+import { Grid, Segment, Loader, Item, Divider } from 'semantic-ui-react';
+import distance from '@turf/distance';
+
 import YelpHeader from './YelpHeader';
 import YelpSearchCard from './YelpSearchCard';
 import YelpCategoryFilter from './YelpCategoryFilter';
-import distance from '@turf/distance';
+import Error from '../Error';
 
 class YelpSearchContainer extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { results: [], shownBusiness: '', loading: false };
+    this.state = { results: [], shownBusiness: '', loading: false, complete: false };
   }
 
   setResults = results => {
@@ -21,11 +23,11 @@ class YelpSearchContainer extends React.Component {
       result.distance = userDistance;
     });
     sortedResults.sort((a, b) => a.distance - b.distance);
-    this.setState({ results: sortedResults, loading: false });
+    this.setState({ results: sortedResults, loading: false, complete: true, error: false });
   };
 
   getYelpResults = category => {
-    this.setState({ loading: true });
+    this.setState({ loading: true, complete: false, error: false });
     fetch(
       `https://cryptic-headland-94862.herokuapp.com/https://api.yelp.com/v3/businesses/search?term=${category}&latitude=${
         this.props.location[0].coords[1]
@@ -37,8 +39,13 @@ class YelpSearchContainer extends React.Component {
         },
       },
     )
+      .catch(this.handleError)
       .then(res => res.json())
       .then(json => this.setResults(json.businesses));
+  };
+
+  handleError = () => {
+    this.setState({ error: true });
   };
 
   showBusinessPage = business => {
@@ -50,12 +57,20 @@ class YelpSearchContainer extends React.Component {
       <Segment>
         <Grid centered columns="equal">
           <Grid.Column width={8}>
+            {this.state.error === true && (
+              <Error message={'Location not found. Please select a trip'} color={'red'} />
+            )}
+            {this.state.complete === true &&
+              this.state.results.length === 0 && (
+                <Error message={'No results found, please search again.'} color={'brown'} />
+              )}
             <YelpHeader location={this.props.location} finalizeSelection={this.finalizeSelection} />
             <YelpCategoryFilter getYelpResults={this.getYelpResults} />
             {this.state.loading === true && <Loader active inline="centered" />}
           </Grid.Column>
           <Grid.Row columns={1}>
             <Grid.Column>
+              {this.state.complete === true && this.state.results.length > 0 && <Divider section />}
               <Item.Group divided>
                 {this.state.results.map(result => (
                   <YelpSearchCard

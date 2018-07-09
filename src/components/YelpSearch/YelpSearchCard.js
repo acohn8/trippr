@@ -28,8 +28,8 @@ const YelpSearchCard = (props) => {
         <Item.Description>
           {`${result.location.display_address[0]}\n${result.location.display_address[1]}`} <br />
           {result.display_phone}
+          <YelpPhotos id={result.id} />
         </Item.Description>
-        <YelpPhotos id={result.id} />
         <Item.Extra>{`${Math.round(result.distance * 10) / 10} miles`}</Item.Extra>
       </Item.Content>
     </Item>

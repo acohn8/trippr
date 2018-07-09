@@ -1,6 +1,8 @@
 import React from 'react';
 import { Dropdown } from 'semantic-ui-react';
 
+import Error from '../Error';
+
 class YelpCategoryFilter extends React.Component {
   constructor(props) {
     super(props);
