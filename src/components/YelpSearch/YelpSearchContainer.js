@@ -17,12 +17,12 @@ class YelpSearchContainer extends React.Component {
     const sortedResults = results.slice();
     sortedResults.map(result => {
       const to = [result.coordinates.longitude, result.coordinates.latitude];
-      const from = this.props.location[0].coords;
+      const from = this.props.location.coords;
       const options = { units: 'miles' };
       const userDistance = distance(from, to, options);
       result.distance = userDistance;
     });
-    sortedResults.sort((a, b) => b.rating - b.rating);
+    sortedResults.sort((a, b) => b.rating - a.rating);
     this.setState({ results: sortedResults, loading: false, complete: true, error: false });
   };
 
@@ -30,8 +30,8 @@ class YelpSearchContainer extends React.Component {
     this.setState({ loading: true, complete: false, error: false });
     fetch(
       `https://cryptic-headland-94862.herokuapp.com/https://api.yelp.com/v3/businesses/search?term=${category}&latitude=${
-        this.props.location[0].coords[1]
-      }&longitude=${this.props.location[0].coords[0]}`,
+        this.props.location.coords[1]
+      }&longitude=${this.props.location.coords[0]}`,
       {
         headers: {
           authorization:
