@@ -32,7 +32,7 @@ class YelpSearchBar extends React.Component {
     fetch(
       `https://cryptic-headland-94862.herokuapp.com/https://api.yelp.com/v3/businesses/search?term=${
         this.state.search
-      }&latitude=${this.props.location[0].coords[1]}&longitude=${this.props.location[0].coords[0]}`,
+      }&latitude=${this.props.location.coords[1]}&longitude=${this.props.location.coords[0]}`,
       {
         headers: {
           authorization:

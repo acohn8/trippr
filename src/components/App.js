@@ -29,22 +29,25 @@ class App extends React.Component {
   }
 
   setTripLocationState = userLocation => {
-    this.getWikiDataID(userLocation);
-    this.setState({
-      newTripLocation: {
-        coords: userLocation.features['0'].center,
-        name: userLocation.features['0'].text,
-        error: false,
+    // this.getWikiDataID(userLocation);
+    this.setState(
+      {
+        newTripuserLocation: {
+          coords: userLocation.center,
+          name: userLocation.text,
+          error: false,
+        },
       },
-    });
+      this.props.history.push('/new-trip'),
+    );
   };
 
-  getWikiDataID = location => {
-    const wikiDataId = location.features.find(
-      feature => typeof feature.properties.wikidata !== 'undefined',
-    ).properties.wikidata;
-    console.log(wikiDataId);
-  };
+  // getWikiDataID = location => {
+  //   const wikiDataId = location.features.find(
+  //     feature => typeof feature.properties.wikidata !== 'undefined',
+  //   ).properties.wikidata;
+  //   console.log(wikiDataId);
+  // };
 
   saveTrip = formData => {
     let tripData = { ...formData, city: this.state.newTripLocation.name };

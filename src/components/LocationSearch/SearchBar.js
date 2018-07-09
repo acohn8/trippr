@@ -9,7 +9,7 @@ class SearchBar extends React.Component {
     this.state = {
       search: '',
       results: [],
-      loading: false,
+      // loading: false,
     };
   }
 
@@ -31,24 +31,24 @@ class SearchBar extends React.Component {
       .then(json => this.setState({ results: json.features.slice(0, 5) }));
   };
 
-  fetchSearchLocation = () => {
-    fetch(
-      `https://api.mapbox.com/geocoding/v5/mapbox.places/${
-        this.state.search
-      }.json?access_token=pk.eyJ1IjoiYWRhbWNvaG4iLCJhIjoiY2pod2Z5ZWQzMDBtZzNxcXNvaW8xcGNiNiJ9.fHYsK6UNzqknxKuchhfp7A&country=us`,
-    )
-      .then(res => res.json())
-      .then(geoData => this.props.saveLocation(geoData))
-      .catch(this.handleError)
-      .then(this.props.history.push('/new-trip'));
-  };
+  // fetchSearchLocation = () => {
+  //   fetch(
+  //     `https://api.mapbox.com/geocoding/v5/mapbox.places/${
+  //       this.state.search.id
+  //     }.json?access_token=pk.eyJ1IjoiYWRhbWNvaG4iLCJhIjoiY2pod2Z5ZWQzMDBtZzNxcXNvaW8xcGNiNiJ9.fHYsK6UNzqknxKuchhfp7A&country=us`,
+  //   )
+  //     .then(res => res.json())
+  //     .then(geoData => this.props.saveLocation(geoData))
+  //     .catch(this.handleError)
+  //     .then(this.props.history.push('/new-trip'));
+  // };
 
   handleError = () => {
     this.setState(
       {
         search: '',
         results: [],
-        loading: false,
+        // loading: false,
       },
       this.props.locationError(),
     );
@@ -58,21 +58,21 @@ class SearchBar extends React.Component {
     this.setState({ search: event.target.value }, _.debounce(this.searchforLocation, 100));
   };
 
-  startGeolocate = () => {
-    this.setState({ loading: true }, this.geolocate);
-  };
+  // startGeolocate = () => {
+  //   this.setState({ loading: true }, this.geolocate);
+  // };
 
-  geolocate = () => {
-    navigator.geolocation.getCurrentPosition(position => {
-      this.setState(
-        { search: `${position.coords.longitude}, ${position.coords.latitude}` },
-        this.fetchSearchLocation,
-      );
-    });
-  };
+  // geolocate = () => {
+  //   navigator.geolocation.getCurrentPosition(position => {
+  //     this.setState(
+  //       { search: `${position.coords.longitude}, ${position.coords.latitude}` },
+  //       this.fetchSearchLocation,
+  //     );
+  //   });
+  // };
 
   getLocationFromList = element => {
-    this.setState({ search: element.result.id, loading: true }, this.fetchSearchLocation);
+    this.props.saveLocation(element.result);
   };
 
   render() {
@@ -92,14 +92,14 @@ class SearchBar extends React.Component {
               >
                 <input />
                 {
-                  <Icon
-                    name="location arrow"
-                    color="olive"
-                    inverted
-                    circular
-                    link
-                    onClick={this.startGeolocate}
-                  />
+                  // <Icon
+                  //   name="location arrow"
+                  //   color="olive"
+                  //   inverted
+                  //   circular
+                  //   link
+                  //   onClick={this.startGeolocate}
+                  // />
                 }
               </Input>
             )}
