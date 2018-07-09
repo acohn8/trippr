@@ -1,6 +1,6 @@
-import React from "react";
-import Bookmark from "./Bookmark";
-import { Card, Header, Button } from "semantic-ui-react";
+import React from 'react';
+import Bookmark from './Bookmark';
+import { Card, Header, Grid } from 'semantic-ui-react';
 
 class BookmarksContainer extends React.Component {
   constructor(props) {
@@ -9,14 +9,12 @@ class BookmarksContainer extends React.Component {
 
   render() {
     return (
-      <div>
+      <Grid.Row>
         <Header as="h2">Bookmarked Restraunts</Header>
         <Card.Group>
-          {this.props.bookmarks.map(bookmark => {
-            return <Bookmark bookmark={bookmark} />;
-          })}
+          {this.props.bookmarks.map(bookmark => <Bookmark bookmark={bookmark} />)}
         </Card.Group>
-      </div>
+      </Grid.Row>
     );
   }
 }
