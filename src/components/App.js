@@ -16,7 +16,7 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    RailsApi.getTrips().then(trips => this.setState({ trips: trips }));
+    RailsApi.getTrips().then(trips => this.setState({ trips: trips, error: false }));
   }
 
   setTripLocationState = userLocation => {
@@ -38,6 +38,7 @@ class App extends React.Component {
       .then(trip =>
         this.setState({
           trips: [...this.state.trips, trip],
+          error: false,
         }),
       )
       .then(this.props.history.push('/add-venues'));
