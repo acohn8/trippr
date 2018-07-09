@@ -22,7 +22,7 @@ class YelpSearchContainer extends React.Component {
       const userDistance = distance(from, to, options);
       result.distance = userDistance;
     });
-    sortedResults.sort((a, b) => a.distance - b.distance);
+    sortedResults.sort((a, b) => b.rating - b.rating);
     this.setState({ results: sortedResults, loading: false, complete: true, error: false });
   };
 
@@ -53,6 +53,11 @@ class YelpSearchContainer extends React.Component {
   };
 
   render() {
+    const closeResults = this.state.results.filter(result => result.distance <= 1);
+    const furtherResults = this.state.results.filter(
+      result => result.distance > 1 && result.distance <= 3,
+    );
+    const areaResults = this.state.results.filter(result => result.distance > 3);
     return (
       <Segment>
         <Grid centered columns="equal">
@@ -71,15 +76,42 @@ class YelpSearchContainer extends React.Component {
           <Grid.Row columns={1}>
             <Grid.Column>
               {this.state.complete === true && this.state.results.length > 0 && <Divider section />}
-              <Item.Group divided>
-                {this.state.results.map(result => (
-                  <YelpSearchCard
-                    result={result}
-                    showBusinessPage={this.showBusinessPage}
-                    key={result.id}
-                  />
-                ))}
-              </Item.Group>
+              {closeResults.length > 0 && (
+                <Item.Group divided>
+                  <h3>Near you</h3>
+                  {closeResults.map(result => (
+                    <YelpSearchCard
+                      result={result}
+                      showBusinessPage={this.showBusinessPage}
+                      key={result.id}
+                    />
+                  ))}
+                </Item.Group>
+              )}
+              {furtherResults.length > 0 && (
+                <Item.Group divided>
+                  <h3>A little further</h3>
+                  {furtherResults.map(result => (
+                    <YelpSearchCard
+                      result={result}
+                      showBusinessPage={this.showBusinessPage}
+                      key={result.id}
+                    />
+                  ))}
+                </Item.Group>
+              )}
+              {areaResults.length > 0 && (
+                <Item.Group divided>
+                  <h3>Furthest</h3>
+                  {areaResults.map(result => (
+                    <YelpSearchCard
+                      result={result}
+                      showBusinessPage={this.showBusinessPage}
+                      key={result.id}
+                    />
+                  ))}
+                </Item.Group>
+              )}
             </Grid.Column>
           </Grid.Row>
         </Grid>
