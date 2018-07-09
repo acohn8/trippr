@@ -1,16 +1,23 @@
 import React from 'react';
-import { Grid, Segment, Loader, Item, Divider } from 'semantic-ui-react';
+import { Grid, Segment, Loader, Item, Divider, Header } from 'semantic-ui-react';
 import distance from '@turf/distance';
 
 import YelpHeader from './YelpHeader';
 import YelpSearchCard from './YelpSearchCard';
 import YelpCategoryFilter from './YelpCategoryFilter';
+import YelpDistanceFilter from './YelpDistanceFilter';
 import Error from '../Error';
 
 class YelpSearchContainer extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { results: [], shownBusiness: '', loading: false, complete: false };
+    this.state = {
+      results: [],
+      loading: false,
+      complete: false,
+      filteredResults: [],
+      searchDistance: '',
+    };
   }
 
   setResults = results => {
@@ -23,7 +30,15 @@ class YelpSearchContainer extends React.Component {
       result.distance = userDistance;
     });
     sortedResults.sort((a, b) => b.rating - a.rating);
-    this.setState({ results: sortedResults, loading: false, complete: true, error: false });
+    const initialResults = sortedResults.filter(result => result.distance <= 1).slice(0, 5);
+    this.setState({
+      results: sortedResults,
+      loading: false,
+      complete: true,
+      error: false,
+      filteredResults: initialResults,
+      searchDistance: 'The best within a mile',
+    });
   };
 
   getYelpResults = category => {
@@ -48,16 +63,23 @@ class YelpSearchContainer extends React.Component {
     this.setState({ error: true });
   };
 
-  showBusinessPage = business => {
-    this.setState({ shownBusiness: business });
+  filterDistance = (event, data) => {
+    let filteredResults;
+    let searchDistance;
+    if (data.value === 1 || typeof data.value === 'undefined') {
+      filteredResults = this.state.results.filter(result => result.distance <= 1).slice(0, 5);
+      searchDistance = 'The best within a mile';
+    } else if (data.value === 2) {
+      filteredResults = this.state.results.filter(result => result.distance <= 3).slice(0, 5);
+      searchDistance = 'The best within three miles';
+    } else if (data.value === 3) {
+      filteredResults = this.state.results.slice(0, 5);
+      searchDistance = 'The best in the area';
+    }
+    this.setState({ filteredResults: filteredResults, searchDistance: searchDistance });
   };
 
   render() {
-    const closeResults = this.state.results.filter(result => result.distance <= 1);
-    const furtherResults = this.state.results.filter(
-      result => result.distance > 1 && result.distance <= 3,
-    );
-    const areaResults = this.state.results.filter(result => result.distance > 3);
     return (
       <Segment>
         <Grid centered columns="equal">
@@ -66,49 +88,21 @@ class YelpSearchContainer extends React.Component {
               <Error message={'Location not found. Please select a trip'} color={'red'} />
             )}
             {this.state.complete === true &&
-              this.state.results.length === 0 && (
-                <Error message={'No results found, please search again.'} color={'brown'} />
+              this.state.filteredResults.length === 0 && (
+                <Error message={'No results found, please adjust your distance filter or search again.'} color={'brown'} />
               )}
             <YelpHeader location={this.props.location} finalizeSelection={this.finalizeSelection} />
             <YelpCategoryFilter getYelpResults={this.getYelpResults} />
+            <YelpDistanceFilter filterDistance={this.filterDistance} />
             {this.state.loading === true && <Loader active inline="centered" />}
           </Grid.Column>
           <Grid.Row columns={1}>
             <Grid.Column>
-              {this.state.complete === true && this.state.results.length > 0 && <Divider section />}
-              {closeResults.length > 0 && (
+              {this.state.filteredResults.length > 0 && (
                 <Item.Group divided>
-                  <h3>Near you</h3>
-                  {closeResults.map(result => (
-                    <YelpSearchCard
-                      result={result}
-                      showBusinessPage={this.showBusinessPage}
-                      key={result.id}
-                    />
-                  ))}
-                </Item.Group>
-              )}
-              {furtherResults.length > 0 && (
-                <Item.Group divided>
-                  <h3>A little further</h3>
-                  {furtherResults.map(result => (
-                    <YelpSearchCard
-                      result={result}
-                      showBusinessPage={this.showBusinessPage}
-                      key={result.id}
-                    />
-                  ))}
-                </Item.Group>
-              )}
-              {areaResults.length > 0 && (
-                <Item.Group divided>
-                  <h3>Furthest</h3>
-                  {areaResults.map(result => (
-                    <YelpSearchCard
-                      result={result}
-                      showBusinessPage={this.showBusinessPage}
-                      key={result.id}
-                    />
+                  <Header as="h2">{this.state.searchDistance}</Header>
+                  {this.state.filteredResults.map(result => (
+                    <YelpSearchCard result={result} key={result.id} />
                   ))}
                 </Item.Group>
               )}
