@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-import { Card, Icon, Image } from "semantic-ui-react";
+import { Card, Icon, Image, Statistic } from "semantic-ui-react";
 import Moment from "react-moment";
 
 class UserTrips extends React.Component {

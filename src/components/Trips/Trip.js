@@ -23,12 +23,15 @@ class Trip extends React.Component {
     return (
       <Segment>
         <Image src={this.state.trip.image} size="small" floated="right" />
+        <div>
+          <Header size="huge">{this.state.trip.city}</Header>
+        </div>
         <p>
-          <Header as="h1">{this.state.trip.city}</Header>
           <Moment date={this.state.trip.start_date} format="ddd MMM D, YYYY " />
           - <Moment date={this.state.trip.end_date} format="ddd MMM D, YYYY" />
         </p>
         <Button primary>Add Restraunts</Button>
+        <Divider />
         <BookmarksContainer />
       </Segment>
     );
