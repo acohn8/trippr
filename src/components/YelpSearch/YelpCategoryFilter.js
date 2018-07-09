@@ -1,8 +1,6 @@
 import React from 'react';
 import { Dropdown } from 'semantic-ui-react';
 
-import Error from '../Error';
-
 class YelpCategoryFilter extends React.Component {
   constructor(props) {
     super(props);
@@ -41,8 +39,6 @@ class YelpCategoryFilter extends React.Component {
   handleChange = (e, data) => {
     this.props.getYelpResults(data.value);
   };
-
-  showBusiness = (e, data) => {};
 
   render() {
     {
