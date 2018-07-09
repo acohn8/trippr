@@ -1,14 +1,14 @@
-import React from "react";
-import { Form, Input, Icon, Segment, List } from "semantic-ui-react";
-import _ from "lodash";
-import SearchResults from "./SearchResults";
+import React from 'react';
+import { Form, Input, Icon, Segment, List } from 'semantic-ui-react';
+import _ from 'lodash';
+import SearchResults from './SearchResults';
 
 class SearchBar extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      search: "",
-      results: []
+      search: '',
+      results: [],
       // loading: false,
     };
   }
@@ -25,7 +25,7 @@ class SearchBar extends React.Component {
     fetch(
       `https://api.mapbox.com/geocoding/v5/mapbox.places/${
         this.state.search
-      }.json?access_token=pk.eyJ1IjoiYWRhbWNvaG4iLCJhIjoiY2pod2Z5ZWQzMDBtZzNxcXNvaW8xcGNiNiJ9.fHYsK6UNzqknxKuchhfp7A&country=us&autocomplete=true`
+      }.json?access_token=pk.eyJ1IjoiYWRhbWNvaG4iLCJhIjoiY2pod2Z5ZWQzMDBtZzNxcXNvaW8xcGNiNiJ9.fHYsK6UNzqknxKuchhfp7A&country=us&types=poi%2Cpoi.landmark%2Caddress%2Cneighborhood%2Clocality%2Cplace%2Cpostcode`,
     )
       .then(res => res.json())
       .then(json => this.setState({ results: json.features.slice(0, 5) }));
@@ -46,19 +46,16 @@ class SearchBar extends React.Component {
   handleError = () => {
     this.setState(
       {
-        search: "",
-        results: []
+        search: '',
+        results: [],
         // loading: false,
       },
-      this.props.locationError()
+      this.props.locationError(),
     );
   };
 
   handleChange = event => {
-    this.setState(
-      { search: event.target.value },
-      _.debounce(this.searchforLocation, 100)
-    );
+    this.setState({ search: event.target.value }, _.debounce(this.searchforLocation, 100));
   };
 
   // startGeolocate = () => {
