@@ -1,4 +1,5 @@
 import React from "react";
+import md5 from "js-md5";
 import { Route, Switch, withRouter } from "react-router-dom";
 
 import Nav from "./Nav";
@@ -29,7 +30,7 @@ class App extends React.Component {
   }
 
   setTripLocationState = userLocation => {
-    // this.getWikiDataID(userLocation);
+    this.getWikiDataID(userLocation);
     this.setState(
       {
         newTripLocation: {
@@ -42,12 +43,28 @@ class App extends React.Component {
     );
   };
 
-  // getWikiDataID = location => {
-  //   const wikiDataId = location.features.find(
-  //     feature => typeof feature.properties.wikidata !== 'undefined',
-  //   ).properties.wikidata;
-  //   console.log(wikiDataId);
-  // };
+  getWikiDataID = location => {
+    const wikiDataId = location.context.find(feature =>
+      feature.hasOwnProperty("wikidata")
+    ).wikidata;
+    fetch(
+      `https://cryptic-headland-94862.herokuapp.com/https://www.wikidata.org/w/api.php?action=wbgetclaims&entity=${wikiDataId}&property=P18&format=json`
+    )
+      .then(res => res.json())
+      .then(json =>
+        this.createImage(json.claims.P18["0"].mainsnak.datavalue.value)
+      );
+  };
+
+  createImage = name => {
+    const formattedName = name.split(" ").join("_");
+    const mdSum = md5(formattedName).slice(0, 2);
+    const link = `https://upload.wikimedia.org/wikipedia/commons/${mdSum.slice(
+      0,
+      1
+    )}/${mdSum}/${formattedName}`;
+    this.setState({ image: link });
+  };
 
   saveTrip = formData => {
     let tripData = {
