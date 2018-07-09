@@ -16,7 +16,6 @@ class Trip extends React.Component {
   }
 
   componentDidMount = () => {
-    //fetch a trip here!
     RailsApi.getTrip(this.props.match.params.tripId).then(trip =>
       this.setState({ trip: trip, bookmarks: trip.bookmarks })
     );
@@ -32,18 +31,20 @@ class Trip extends React.Component {
     RailsApi.postYelpRestaurantBookmark(yelpResult, this.state.trip.id)
       .then(res => res.json())
       .then(json =>
-        this.setState({
-          ...this.state,
-          showBookmarks: true,
-          bookmarks: [...this.state.bookmarks, json]
-        })
+        this.setState(
+          {
+            ...this.state,
+            showBookmarks: true,
+            bookmarks: [...this.state.bookmarks, json]
+          },
+          () => this.props.updateTrips()
+        )
       );
   };
 
   render() {
     return (
       <Segment>
-        <Image src={this.state.trip.image} size="small" floated="right" />
         <div>
           <Header size="huge">{this.state.trip.city}</Header>
         </div>

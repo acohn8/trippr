@@ -24,10 +24,14 @@ class App extends React.Component {
   }
 
   componentDidMount() {
+    this.updateTrips();
+  }
+
+  updateTrips = () => {
     RailsApi.getTrips().then(trips =>
       this.setState({ trips: trips, tripsLoaded: true, error: false })
     );
-  }
+  };
 
   setTripLocationState = userLocation => {
     this.getWikiDataID(userLocation);
@@ -149,7 +153,11 @@ class App extends React.Component {
               return (
                 <div>
                   {this.state.tripsLoaded ? (
-                    <Trip trips={this.state.trips} {...props} />
+                    <Trip
+                      trips={this.state.trips}
+                      {...props}
+                      updateTrips={this.updateTrips}
+                    />
                   ) : (
                     <div />
                   )}
