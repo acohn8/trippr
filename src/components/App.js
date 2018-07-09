@@ -1,15 +1,15 @@
-import React from "react";
-import { Route, Switch, withRouter } from "react-router-dom";
+import React from 'react';
+import { Route, Switch, withRouter } from 'react-router-dom';
 
-import Nav from "./Nav";
-import RailsApi from "./RailsApi";
-import SearchContainer from "./LocationSearch/SearchContainer";
-import UserTrips from "./Trips/UserTrips";
-import Trip from "./Trips/Trip";
+import Nav from './Nav';
+import RailsApi from './RailsApi';
+import SearchContainer from './LocationSearch/SearchContainer';
+import UserTrips from './Trips/UserTrips';
+import Trip from './Trips/Trip';
 
-import NewTripContainer from "./TripCreation/NewTripContainer";
-import YelpSearchContainer from "./YelpSearch/YelpSearchContainer";
-import Error from "./Error";
+import NewTripContainer from './TripCreation/NewTripContainer';
+import YelpSearchContainer from './YelpSearch/YelpSearchContainer';
+import Error from './Error';
 
 class App extends React.Component {
   constructor(props) {
@@ -18,24 +18,32 @@ class App extends React.Component {
       newTripLocation: [],
       trips: [],
       tripsLoaded: false,
-      error: false
+      error: false,
     };
   }
 
   componentDidMount() {
     RailsApi.getTrips().then(trips =>
-      this.setState({ trips: trips, tripsLoaded: true, error: false })
+      this.setState({ trips: trips, tripsLoaded: true, error: false }),
     );
   }
 
   setTripLocationState = userLocation => {
+    this.getWikiDataID(userLocation);
     this.setState({
       newTripLocation: {
-        coords: userLocation.features["0"].center,
-        name: userLocation.features["0"].text,
-        error: false
-      }
+        coords: userLocation.features['0'].center,
+        name: userLocation.features['0'].text,
+        error: false,
+      },
     });
+  };
+
+  getWikiDataID = location => {
+    const wikiDataId = location.features.find(
+      feature => typeof feature.properties.wikidata !== 'undefined',
+    ).properties.wikidata;
+    console.log(wikiDataId);
   };
 
   saveTrip = formData => {
@@ -45,14 +53,14 @@ class App extends React.Component {
       .then(trip =>
         this.setState({
           trips: [...this.state.trips, trip],
-          error: false
-        })
+          error: false,
+        }),
       )
-      .then(this.props.history.push("/add-venues"));
+      .then(this.props.history.push('/add-venues'));
   };
 
   locationError = () => {
-    this.setState({ error: true }), this.props.history.push("/home");
+    this.setState({ error: true }), this.props.history.push('/home');
   };
 
   render() {
@@ -70,10 +78,7 @@ class App extends React.Component {
               return (
                 <div>
                   {this.state.error === true && (
-                    <Error
-                      message={"Location could not be found, search again"}
-                      color={"red"}
-                    />
+                    <Error message={'Location could not be found, search again'} color={'red'} />
                   )}
                   <SearchContainer
                     saveLocation={this.setTripLocationState}
@@ -96,11 +101,7 @@ class App extends React.Component {
             render={props => {
               return (
                 <div>
-                  {this.state.tripsLoaded ? (
-                    <Trip trips={this.state.trips} {...props} />
-                  ) : (
-                    <div />
-                  )}
+                  {this.state.tripsLoaded ? <Trip trips={this.state.trips} {...props} /> : <div />}
                 </div>
               );
             }}
@@ -120,9 +121,7 @@ class App extends React.Component {
           <Route
             path="/add-venues"
             render={props => {
-              return (
-                <YelpSearchContainer location={this.state.newTripLocation} />
-              );
+              return <YelpSearchContainer location={this.state.newTripLocation} />;
             }}
           />
         </Switch>

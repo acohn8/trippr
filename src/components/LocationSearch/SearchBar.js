@@ -9,18 +9,8 @@ class SearchBar extends React.Component {
     this.state = {
       search: '',
       results: [],
-      locationFound: false,
       loading: false,
     };
-  }
-
-  componentWillUnmount() {
-    this.setState({
-      search: '',
-      results: [],
-      locationFound: false,
-      loading: false,
-    });
   }
 
   searchforLocation = () => {
@@ -58,7 +48,6 @@ class SearchBar extends React.Component {
       {
         search: '',
         results: [],
-        locationFound: false,
         loading: false,
       },
       this.props.locationError(),
@@ -66,7 +55,7 @@ class SearchBar extends React.Component {
   };
 
   handleChange = event => {
-    this.setState({ search: event.target.value }, _.debounce(this.searchforLocation, 200));
+    this.setState({ search: event.target.value }, _.debounce(this.searchforLocation, 100));
   };
 
   startGeolocate = () => {
@@ -86,15 +75,11 @@ class SearchBar extends React.Component {
     this.setState({ search: element.result.id, loading: true }, this.fetchSearchLocation);
   };
 
-  handleSubmit = event => {
-    event.preventDefault();
-    this.setState({ loading: true }, this.fetchSearchLocation);
-  };
-
   render() {
     return (
       <Segment basic>
-        <Form onSubmit={this.handleSubmit}>
+        <Form>
+          {/* <Form onSubmit={this.handleSubmit}> */}
           <Form.Field>
             {this.state.loading === true ? (
               <Input loading placeholder="Search..." />
@@ -120,12 +105,11 @@ class SearchBar extends React.Component {
             )}
           </Form.Field>
         </Form>
-        {this.state.locationFound === false &&
-          this.state.results.map(result => (
-            <List selection key={result.id}>
-              <SearchResults result={result} select={this.getLocationFromList} />
-            </List>
-          ))}
+        {this.state.results.map(result => (
+          <List selection key={result.id}>
+            <SearchResults result={result} select={this.getLocationFromList} />
+          </List>
+        ))}
       </Segment>
     );
   }
