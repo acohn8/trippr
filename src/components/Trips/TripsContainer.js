@@ -4,7 +4,7 @@ import { Route, Switch } from "react-router-dom";
 import UserTrips from "./UserTrips";
 import Trip from "./Trip";
 
-class UserContainer extends React.Component {
+class TripsContainer extends React.Component {
   constructor(props) {
     super(props);
   }
@@ -27,4 +27,4 @@ class UserContainer extends React.Component {
   }
 }
 
-export default UserContainer;
+export default TripsContainer;
