@@ -30,7 +30,6 @@ class App extends React.Component {
   }
 
   setTripLocationState = userLocation => {
-    console.log(userLocation);
     this.getWikiDataID(userLocation);
     this.setState(
       {
@@ -46,11 +45,12 @@ class App extends React.Component {
 
   getWikiDataID = location => {
     let wikiDataId;
-    if (location.properties.hasOwnProperty('wikidata')) {
+    if (location.properties.hasOwnProperty('wikidata') && location.properties.landmark !== true) {
       wikiDataId = location.properties.wikidata;
     } else {
-      wikiDataId = location.context.find(feature => feature.hasOwnProperty('wikidata'));
+      wikiDataId = location.context.find(feature => feature.hasOwnProperty('wikidata')).wikidata;
     }
+    console.log(wikiDataId);
     fetch(
       `https://cryptic-headland-94862.herokuapp.com/https://www.wikidata.org/w/api.php?action=wbgetclaims&entity=${wikiDataId}&property=P18&format=json`,
     )
