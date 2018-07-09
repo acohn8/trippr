@@ -1,6 +1,7 @@
 import React from "react";
 import { Segment, Image, Header, Divider, Button } from "semantic-ui-react";
 import Moment from "react-moment";
+import RailsApi from "../RailsApi";
 import BookmarksContainer from "./BookmarksContainer";
 import YelpSearchContainer from "../YelpSearch/YelpSearchContainer";
 
@@ -15,11 +16,10 @@ class Trip extends React.Component {
   }
 
   componentDidMount = () => {
-    this.setState({
-      trip: this.props.trips.find(trip => {
-        return trip.id == this.props.match.params.tripId;
-      })
-    });
+    //fetch a trip here!
+    RailsApi.getTrip(this.props.match.params.tripId).then(trip =>
+      this.setState({ trip: trip, bookmarks: trip.bookmarks })
+    );
   };
 
   handleClick = () => {
@@ -29,15 +29,15 @@ class Trip extends React.Component {
   };
 
   bookmark = yelpResult => {
-    console.log("Yelp Result", yelpResult);
-    this.setState(
-      {
-        ...this.state,
-        showBookmarks: true,
-        bookmarks: [...this.state.bookmarks, yelpResult]
-      },
-      () => console.log(this.state)
-    );
+    RailsApi.postYelpRestaurantBookmark(yelpResult, this.state.trip.id)
+      .then(res => res.json())
+      .then(json =>
+        this.setState({
+          ...this.state,
+          showBookmarks: true,
+          bookmarks: [...this.state.bookmarks, json]
+        })
+      );
   };
 
   render() {

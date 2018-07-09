@@ -101,10 +101,6 @@ class YelpSearchContainer extends React.Component {
     });
   };
 
-  bookmark = yelpResults => {
-    console.log("Yelp Result", yelpResults);
-  };
-
   render() {
     return (
       <div>
