@@ -85,7 +85,8 @@ class App extends React.Component {
       city: this.state.newTripLocation.name,
       address_latitude: this.state.newTripLocation.coords[1],
       address_longitude: this.state.newTripLocation.coords[0],
-      image: this.state.image
+      image: this.state.image,
+      status: true
     };
     RailsApi.postTrip(tripData)
       .then(res => res.json())
@@ -143,7 +144,10 @@ class App extends React.Component {
             path="/trips"
             render={props => {
               return (
-                <UserTrips trips={this.state.trips} image={this.state.image} />
+                <UserTrips
+                  trips={this.state.trips}
+                  updateTrips={this.updateTrips}
+                />
               );
             }}
           />

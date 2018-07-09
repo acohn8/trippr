@@ -12,6 +12,15 @@ export default {
       },
       body: JSON.stringify(tripData)
     }),
+  archiveTrip: id =>
+    fetch(`${url}/trips/${id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json"
+      },
+      body: JSON.stringify({ status: false })
+    }),
   postYelpRestaurantBookmark: (yelpData, trip_id) => {
     let bookmarkData = {
       title: yelpData.name,

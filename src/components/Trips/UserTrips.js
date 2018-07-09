@@ -3,16 +3,26 @@ import { Link } from "react-router-dom";
 
 import { Card, Icon, Image, Statistic } from "semantic-ui-react";
 import Moment from "react-moment";
+import RailsApi from "../RailsApi";
 
 class UserTrips extends React.Component {
   constructor(props) {
     super(props);
   }
 
+  activeTrips = () => {
+    return this.props.trips.filter(trip => trip.status === true);
+  };
+
+  archiveTrip = tripId => {
+    RailsApi.archiveTrip(tripId);
+    this.props.updateTrips();
+  };
+
   render() {
     return (
       <Card.Group>
-        {this.props.trips.map(trip => (
+        {this.activeTrips().map(trip => (
           <Card>
             <Image src={trip.image} />
             <Card.Content>
@@ -30,7 +40,7 @@ class UserTrips extends React.Component {
               </Card.Description>
             </Card.Content>
             <Card.Content extra>
-              <a>Delete</a>
+              <a onClick={() => this.archiveTrip(trip.id)}>Archive</a>
             </Card.Content>
           </Card>
         ))}
