@@ -19,9 +19,7 @@ class NewTripContainer extends React.Component {
                 <Icon name="plane" />
                 <Header.Content>
                   {this.props.location.name}
-                  <Header.Subheader>
-                    Enter your trip dates and food preferences
-                  </Header.Subheader>
+                  <Header.Subheader>Enter your trip dates</Header.Subheader>
                 </Header.Content>
               </Header>
               <NewTripForm
