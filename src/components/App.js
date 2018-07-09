@@ -4,7 +4,9 @@ import { Route, Switch, withRouter } from "react-router-dom";
 import Nav from "./Nav";
 import RailsApi from "./RailsApi";
 import SearchContainer from "./LocationSearch/SearchContainer";
-import UserContainer from "./UserProfile/UserContainer";
+import UserTrips from "./Trips/UserTrips";
+import Trip from "./Trips/Trip";
+
 import NewTripContainer from "./TripCreation/NewTripContainer";
 import YelpSearchContainer from "./YelpSearch/YelpSearchContainer";
 import Error from "./Error";
@@ -12,12 +14,17 @@ import Error from "./Error";
 class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { newTripLocation: [], trips: [], error: false };
+    this.state = {
+      newTripLocation: [],
+      trips: [],
+      tripsLoaded: false,
+      error: false
+    };
   }
 
   componentDidMount() {
     RailsApi.getTrips().then(trips =>
-      this.setState({ trips: trips, error: false })
+      this.setState({ trips: trips, tripsLoaded: true, error: false })
     );
   }
 
@@ -77,11 +84,25 @@ class App extends React.Component {
               );
             }}
           />
-
           <Route
+            exact
             path="/trips"
             render={props => {
-              return <UserContainer trips={this.state.trips} />;
+              return <UserTrips trips={this.state.trips} />;
+            }}
+          />
+          <Route
+            path="/trips/:tripId"
+            render={props => {
+              return (
+                <div>
+                  {this.state.tripsLoaded ? (
+                    <Trip trips={this.state.trips} {...props} />
+                  ) : (
+                    <div />
+                  )}
+                </div>
+              );
             }}
           />
           <Route
