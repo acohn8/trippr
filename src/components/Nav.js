@@ -1,11 +1,11 @@
-import React from 'react';
-import { Menu, Button } from 'semantic-ui-react';
-import { Link } from 'react-router-dom';
+import React from "react";
+import { Menu, Button } from "semantic-ui-react";
+import { Link } from "react-router-dom";
 
 class Nav extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { activeItem: 'home' };
+    this.state = { activeItem: "home" };
   }
 
   handleItemClick = (e, { name }) => this.setState({ activeItem: name });
@@ -17,16 +17,16 @@ class Nav extends React.Component {
       <Menu inverted size="large" color="blue">
         <Menu.Item
           as={Link}
-          to={`/home`}
+          to={`/`}
           name="Trippr"
-          active={activeItem === 'home'}
+          active={activeItem === "home"}
           onClick={this.handleItemClick}
         />
         <Menu.Item
           as={Link}
           to={`/trips`}
           name="trips"
-          active={activeItem === 'trips'}
+          active={activeItem === "trips"}
           onClick={this.handleItemClick}
         />
         <Menu.Menu position="right">
