@@ -8,12 +8,8 @@ class SearchBar extends React.Component {
     super(props);
     this.state = {
       search: "",
-      results: [],
-<<<<<<< HEAD
-      loading: false
-=======
+      results: []
       // loading: false,
->>>>>>> 85ad64c5b88bcd8ffe1cec54d41ef73686e026ed
     };
   }
 
@@ -35,19 +31,6 @@ class SearchBar extends React.Component {
       .then(json => this.setState({ results: json.features.slice(0, 5) }));
   };
 
-<<<<<<< HEAD
-  fetchSearchLocation = () => {
-    fetch(
-      `https://api.mapbox.com/geocoding/v5/mapbox.places/${
-        this.state.search
-      }.json?access_token=pk.eyJ1IjoiYWRhbWNvaG4iLCJhIjoiY2pod2Z5ZWQzMDBtZzNxcXNvaW8xcGNiNiJ9.fHYsK6UNzqknxKuchhfp7A&country=us`
-    )
-      .then(res => res.json())
-      .then(geoData => this.props.saveLocation(geoData))
-      .catch(this.handleError)
-      .then(this.props.history.push("/new-trip"));
-  };
-=======
   // fetchSearchLocation = () => {
   //   fetch(
   //     `https://api.mapbox.com/geocoding/v5/mapbox.places/${
@@ -59,18 +42,13 @@ class SearchBar extends React.Component {
   //     .catch(this.handleError)
   //     .then(this.props.history.push('/new-trip'));
   // };
->>>>>>> 85ad64c5b88bcd8ffe1cec54d41ef73686e026ed
 
   handleError = () => {
     this.setState(
       {
         search: "",
-        results: [],
-<<<<<<< HEAD
-        loading: false
-=======
+        results: []
         // loading: false,
->>>>>>> 85ad64c5b88bcd8ffe1cec54d41ef73686e026ed
       },
       this.props.locationError()
     );
@@ -87,22 +65,6 @@ class SearchBar extends React.Component {
   //   this.setState({ loading: true }, this.geolocate);
   // };
 
-<<<<<<< HEAD
-  geolocate = () => {
-    navigator.geolocation.getCurrentPosition(position => {
-      this.setState(
-        { search: `${position.coords.longitude}, ${position.coords.latitude}` },
-        this.fetchSearchLocation
-      );
-    });
-  };
-
-  getLocationFromList = element => {
-    this.setState(
-      { search: element.result.id, loading: true },
-      this.fetchSearchLocation
-    );
-=======
   // geolocate = () => {
   //   navigator.geolocation.getCurrentPosition(position => {
   //     this.setState(
@@ -114,7 +76,6 @@ class SearchBar extends React.Component {
 
   getLocationFromList = element => {
     this.props.saveLocation(element.result);
->>>>>>> 85ad64c5b88bcd8ffe1cec54d41ef73686e026ed
   };
 
   render() {
