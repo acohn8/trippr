@@ -75,6 +75,7 @@ class SearchBar extends React.Component {
   // };
 
   getLocationFromList = element => {
+    console.log(element);
     this.props.saveLocation(element.result);
   };
 

@@ -9,7 +9,8 @@ class Trip extends React.Component {
     super(props);
     this.state = {
       trip: [],
-      showBookmarks: true
+      showBookmarks: true,
+      bookmarks: []
     };
   }
 
@@ -27,6 +28,18 @@ class Trip extends React.Component {
     });
   };
 
+  bookmark = yelpResult => {
+    console.log("Yelp Result", yelpResult);
+    this.setState(
+      {
+        ...this.state,
+        showBookmarks: true,
+        bookmarks: [...this.state.bookmarks, yelpResult]
+      },
+      () => console.log(this.state)
+    );
+  };
+
   render() {
     return (
       <Segment>
@@ -39,14 +52,18 @@ class Trip extends React.Component {
           - <Moment date={this.state.trip.end_date} format="ddd MMM D, YYYY" />
         </p>
         <Button onClick={this.handleClick} primary>
-          {this.state.showBookmarks ? "Add Restraunts" : "View Bookmarks"}
+          {this.state.showBookmarks ? "Add Restaurants" : "View Bookmarks"}
         </Button>
         <Divider />
         {this.state.showBookmarks ? (
-          <BookmarksContainer />
+          <BookmarksContainer bookmarks={this.state.bookmarks} />
         ) : (
-          <div>Yelp Search Goes Here</div>
-          // <YelpSearchContainer location={this.state.trip.city} />
+          <YelpSearchContainer
+            latitude={this.state.trip.address_latitude}
+            longitude={this.state.trip.address_longitude}
+            city={this.state.trip.city}
+            bookmark={this.bookmark}
+          />
         )}
       </Segment>
     );

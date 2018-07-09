@@ -13,11 +13,19 @@ class Bookmark extends React.Component {
           <Image
             floated="right"
             size="mini"
-            src="https://s3-media4.fl.yelpcdn.com/bphoto/Mr9ZgIhQOrJAaQt_vl2S4A/o.jpg"
+            src={this.props.bookmark.image_url}
           />
-          <Card.Header>Restraunt Name</Card.Header>
-          <Card.Meta>Cuisine</Card.Meta>
-          <Card.Description>Short description</Card.Description>
+          <Card.Header>{this.props.bookmark.name}</Card.Header>
+          <Card.Meta>
+            {this.props.bookmark.categories
+              .map(catObj => {
+                return catObj.alias;
+              })
+              .join(", ")}
+          </Card.Meta>
+          <Card.Description>
+            {this.props.bookmark.location.display_address.join(" ")}
+          </Card.Description>
         </Card.Content>
       </Card>
     );

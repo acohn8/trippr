@@ -10,12 +10,11 @@ class BookmarksContainer extends React.Component {
   render() {
     return (
       <div>
-        <Header as="h3">Bookmarked Restraunts</Header>
+        <Header as="h2">Bookmarked Restraunts</Header>
         <Card.Group>
-          <Bookmark />
-          <Bookmark />
-          <Bookmark />
-          <Bookmark />
+          {this.props.bookmarks.map(bookmark => {
+            return <Bookmark bookmark={bookmark} />;
+          })}
         </Card.Group>
       </div>
     );

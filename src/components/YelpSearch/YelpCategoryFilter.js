@@ -1,7 +1,7 @@
-import React from 'react';
-import { Dropdown, Form } from 'semantic-ui-react';
+import React from "react";
+import { Dropdown, Form } from "semantic-ui-react";
 
-import YelpDistanceFilter from './YelpDistanceFilter';
+import YelpDistanceFilter from "./YelpDistanceFilter";
 
 class YelpCategoryFilter extends React.Component {
   constructor(props) {
@@ -15,13 +15,13 @@ class YelpCategoryFilter extends React.Component {
 
   getCategories = () => {
     fetch(
-      'https://cryptic-headland-94862.herokuapp.com/https://api.yelp.com/v3/categories??locale=en_US',
+      "https://cryptic-headland-94862.herokuapp.com/https://api.yelp.com/v3/categories??locale=en_US",
       {
         headers: {
           authorization:
-            'Bearer B0_o-WOtonclsraT47gpBMjFd_jGrcgkYkl6O74pf4ETwW_GBcfXgSdCbXjffWEsF2gYeFA54QnyG3sKi48covsP2qsu5wrBivNEHNqdUaS1rGcScv0Es8a8OXY_W3Yx',
-        },
-      },
+            "Bearer B0_o-WOtonclsraT47gpBMjFd_jGrcgkYkl6O74pf4ETwW_GBcfXgSdCbXjffWEsF2gYeFA54QnyG3sKi48covsP2qsu5wrBivNEHNqdUaS1rGcScv0Es8a8OXY_W3Yx"
+        }
+      }
     )
       .then(res => res.json())
       .then(json => this.formatCategories(json));
@@ -30,10 +30,14 @@ class YelpCategoryFilter extends React.Component {
   formatCategories = ({ categories }) => {
     const categoriesToSet = [];
     const filteredCategories = categories.filter(category =>
-      category.parent_aliases.includes('restaurants'),
+      category.parent_aliases.includes("restaurants")
     );
     filteredCategories.forEach(category =>
-      categoriesToSet.push({ key: category.alias, text: category.title, value: category.alias }),
+      categoriesToSet.push({
+        key: category.alias,
+        text: category.title,
+        value: category.alias
+      })
     );
     this.setState({ categories: categoriesToSet, loading: false });
   };
@@ -47,8 +51,8 @@ class YelpCategoryFilter extends React.Component {
       if (this.state.loading === false) {
         return (
           <Form>
-            <Form.Group widths="equal">
-              <Form.Field>
+            <Form.Group>
+              <Form.Field width={6}>
                 <Dropdown
                   placeholder="Select a Category"
                   fluid
@@ -59,13 +63,17 @@ class YelpCategoryFilter extends React.Component {
                 />
               </Form.Field>
               <Form.Field>
-                <YelpDistanceFilter filterDistance={this.props.filterDistance} />
+                <YelpDistanceFilter
+                  filterDistance={this.props.filterDistance}
+                />
               </Form.Field>
             </Form.Group>
           </Form>
         );
       } else {
-        return <Dropdown text="Categories" options={this.state.categories} loading />;
+        return (
+          <Dropdown text="Categories" options={this.state.categories} loading />
+        );
       }
     }
   }
