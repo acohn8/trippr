@@ -5,7 +5,6 @@ import distance from '@turf/distance';
 import YelpHeader from './YelpHeader';
 import YelpSearchCard from './YelpSearchCard';
 import YelpCategoryFilter from './YelpCategoryFilter';
-import YelpDistanceFilter from './YelpDistanceFilter';
 import Error from '../Error';
 
 class YelpSearchContainer extends React.Component {
@@ -42,7 +41,13 @@ class YelpSearchContainer extends React.Component {
   };
 
   getYelpResults = category => {
-    this.setState({ loading: true, complete: false, error: false });
+    this.setState({
+      results: [],
+      loading: false,
+      complete: false,
+      filteredResults: [],
+      searchDistance: '',
+    });
     fetch(
       `https://cryptic-headland-94862.herokuapp.com/https://api.yelp.com/v3/businesses/search?term=${category}&latitude=${
         this.props.location.coords[1]
@@ -89,11 +94,16 @@ class YelpSearchContainer extends React.Component {
             )}
             {this.state.complete === true &&
               this.state.filteredResults.length === 0 && (
-                <Error message={'No results found, please adjust your distance filter or search again.'} color={'brown'} />
+                <Error
+                  message={'No results found, please adjust your distance filter or search again.'}
+                  color={'brown'}
+                />
               )}
             <YelpHeader location={this.props.location} finalizeSelection={this.finalizeSelection} />
-            <YelpCategoryFilter getYelpResults={this.getYelpResults} />
-            <YelpDistanceFilter filterDistance={this.filterDistance} />
+            <YelpCategoryFilter
+              getYelpResults={this.getYelpResults}
+              filterDistance={this.filterDistance}
+            />
             {this.state.loading === true && <Loader active inline="centered" />}
           </Grid.Column>
           <Grid.Row columns={1}>

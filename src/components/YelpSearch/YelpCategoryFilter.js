@@ -1,5 +1,7 @@
 import React from 'react';
-import { Dropdown } from 'semantic-ui-react';
+import { Dropdown, Form } from 'semantic-ui-react';
+
+import YelpDistanceFilter from './YelpDistanceFilter';
 
 class YelpCategoryFilter extends React.Component {
   constructor(props) {
@@ -44,14 +46,23 @@ class YelpCategoryFilter extends React.Component {
     {
       if (this.state.loading === false) {
         return (
-          <Dropdown
-            placeholder="Select a Category"
-            fluid
-            search
-            selection
-            options={this.state.categories}
-            onChange={this.handleChange}
-          />
+          <Form>
+            <Form.Group widths="equal">
+              <Form.Field>
+                <Dropdown
+                  placeholder="Select a Category"
+                  fluid
+                  search
+                  selection
+                  options={this.state.categories}
+                  onChange={this.handleChange}
+                />
+              </Form.Field>
+              <Form.Field>
+                <YelpDistanceFilter filterDistance={this.props.filterDistance} />
+              </Form.Field>
+            </Form.Group>
+          </Form>
         );
       } else {
         return <Dropdown text="Categories" options={this.state.categories} loading />;
