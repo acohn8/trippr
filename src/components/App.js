@@ -7,11 +7,16 @@ import SearchContainer from './LocationSearch/SearchContainer';
 import UserContainer from './UserProfile/UserContainer';
 import NewTripContainer from './TripCreation/NewTripContainer';
 import YelpSearchContainer from './YelpSearch/YelpSearchContainer';
+import Error from './Error';
 
 class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { newTripLocation: [], trips: [] };
+    this.state = { newTripLocation: [], trips: [], error: false };
+  }
+
+  componentDidMount() {
+    RailsApi.getTrips().then(trips => this.setState({ trips: trips }));
   }
 
   setTripLocationState = userLocation => {
@@ -20,6 +25,7 @@ class App extends React.Component {
         {
           coords: userLocation.features['0'].center,
           name: userLocation.features['0'].text,
+          error: false,
         },
       ],
     });
@@ -37,9 +43,9 @@ class App extends React.Component {
       .then(this.props.history.push('/add-venues'));
   };
 
-  componentDidMount() {
-    RailsApi.getTrips().then(trips => this.setState({ trips: trips }));
-  }
+  locationError = () => {
+    this.setState({ error: true }), this.props.history.push('/home');
+  };
 
   render() {
     return (
@@ -54,7 +60,16 @@ class App extends React.Component {
             path="/home"
             render={props => {
               return (
-                <SearchContainer saveLocation={this.setTripLocationState} history={props.history} />
+                <div>
+                  {this.state.error === true && (
+                    <Error message={'Location could not be found, search again'} />
+                  )}
+                  <SearchContainer
+                    saveLocation={this.setTripLocationState}
+                    history={props.history}
+                    locationError={this.locationError}
+                  />
+                </div>
               );
             }}
           />

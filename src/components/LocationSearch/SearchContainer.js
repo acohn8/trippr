@@ -9,7 +9,11 @@ const SearchContainer = props => (
     <Grid centered columns="equal">
       <Grid.Column width={8}>
         <SearchHeader />
-        <SearchBar saveLocation={props.saveLocation} history={props.history} />
+        <SearchBar
+          saveLocation={props.saveLocation}
+          locationError={props.locationError}
+          history={props.history}
+        />
       </Grid.Column>
     </Grid>
   </Segment>

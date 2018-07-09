@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, List, Image, Modal, Loader, Grid, Card } from 'semantic-ui-react';
 
-class YelpBusinessPage extends React.Component {
+class YelpPhotos extends React.Component {
   constructor(props) {
     super(props);
     this.state = { loaded: false };
@@ -56,7 +56,7 @@ class YelpBusinessPage extends React.Component {
             <Modal.Header>{this.state.name}</Modal.Header>
             <Modal.Content>
               <Card.Group centered itemsPerRow={3}>
-                {this.state.photos.map(photo => <Card image={photo} />)}
+                {this.state.photos.map(photo => <Card image={photo} verticalAlign="middle" />)}
               </Card.Group>
             </Modal.Content>
           </Modal>
@@ -66,4 +66,4 @@ class YelpBusinessPage extends React.Component {
   }
 }
 
-export default YelpBusinessPage;
+export default YelpPhotos;

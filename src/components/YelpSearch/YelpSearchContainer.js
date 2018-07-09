@@ -1,6 +1,5 @@
 import React from 'react';
 import { Grid, Card, Segment, Loader, Form, Item } from 'semantic-ui-react';
-import YelpSearchBar from './YelpSearchBar';
 import YelpHeader from './YelpHeader';
 import YelpSearchCard from './YelpSearchCard';
 import YelpCategoryFilter from './YelpCategoryFilter';

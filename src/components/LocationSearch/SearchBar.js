@@ -49,6 +49,7 @@ class SearchBar extends React.Component {
     )
       .then(res => res.json())
       .then(geoData => this.props.saveLocation(geoData))
+      .catch(this.props.locationError)
       .then(this.props.history.push('/new-trip'));
   };
 
