@@ -3,6 +3,7 @@ import { Segment, Icon, Image, Button, Grid, Item, Header } from 'semantic-ui-re
 import Moment from 'react-moment';
 import BookmarksContainer from './BookmarksContainer';
 import YelpSearchContainer from '../YelpSearch/YelpSearchContainer';
+import RailsApi from '../RailsApi';
 
 class Trip extends React.Component {
   constructor(props) {
@@ -15,11 +16,9 @@ class Trip extends React.Component {
   }
 
   componentDidMount = () => {
-    this.setState({
-      trip: this.props.trips.find(trip => {
-        return trip.id == this.props.match.params.tripId;
-      }),
-    });
+    RailsApi.getTrip(this.props.match.params.tripId).then(trip =>
+      this.setState({ trip: trip, bookmarks: trip.bookmarks }),
+    );
   };
 
   handleClick = () => {
@@ -29,15 +28,18 @@ class Trip extends React.Component {
   };
 
   bookmark = yelpResult => {
-    console.log('Yelp Result', yelpResult);
-    this.setState(
-      {
-        ...this.state,
-        showBookmarks: true,
-        bookmarks: [...this.state.bookmarks, yelpResult],
-      },
-      () => console.log(this.state),
-    );
+    RailsApi.postYelpRestaurantBookmark(yelpResult, this.state.trip.id)
+      .then(res => res.json())
+      .then(json =>
+        this.setState(
+          {
+            ...this.state,
+            showBookmarks: true,
+            bookmarks: [...this.state.bookmarks, json],
+          },
+          () => this.props.updateTrips(),
+        ),
+      );
   };
 
   render() {

@@ -24,10 +24,14 @@ class App extends React.Component {
   }
 
   componentDidMount() {
+    this.updateTrips();
+  }
+
+  updateTrips = () => {
     RailsApi.getTrips().then(trips =>
       this.setState({ trips: trips, tripsLoaded: true, error: false }),
     );
-  }
+  };
 
   setTripLocationState = userLocation => {
     this.getWikiDataID(userLocation);
@@ -75,6 +79,7 @@ class App extends React.Component {
       address_latitude: this.state.newTripLocation.coords[1],
       address_longitude: this.state.newTripLocation.coords[0],
       image: this.state.image,
+      status: true,
     };
     RailsApi.postTrip(tripData)
       .then(res => res.json())
@@ -126,7 +131,13 @@ class App extends React.Component {
             exact
             path="/trips"
             render={props => {
-              return <UserTrips trips={this.state.trips} image={this.state.image} />;
+              return (
+                <UserTrips
+                  trips={this.state.trips}
+                  updateTrips={this.updateTrips}
+                  image={this.state.image}
+                />
+              );
             }}
           />
           <Route
@@ -134,7 +145,11 @@ class App extends React.Component {
             render={props => {
               return (
                 <div>
-                  {this.state.tripsLoaded ? <Trip trips={this.state.trips} {...props} /> : <div />}
+                  {this.state.tripsLoaded ? (
+                    <Trip trips={this.state.trips} {...props} updateTrips={this.updateTrips} />
+                  ) : (
+                    <div />
+                  )}
                 </div>
               );
             }}

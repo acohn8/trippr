@@ -10,22 +10,10 @@ class Bookmark extends React.Component {
     return (
       <Card>
         <Card.Content>
-          <Image
-            floated="right"
-            size="mini"
-            src={this.props.bookmark.image_url}
-          />
-          <Card.Header>{this.props.bookmark.name}</Card.Header>
-          <Card.Meta>
-            {this.props.bookmark.categories
-              .map(catObj => {
-                return catObj.alias;
-              })
-              .join(", ")}
-          </Card.Meta>
-          <Card.Description>
-            {this.props.bookmark.location.display_address.join(" ")}
-          </Card.Description>
+          <Image floated="right" size="mini" src={this.props.bookmark.image} />
+          <Card.Header>{this.props.bookmark.title}</Card.Header>
+          <Card.Meta>{this.props.bookmark.description}</Card.Meta>
+          <Card.Description>{this.props.bookmark.address}</Card.Description>
         </Card.Content>
       </Card>
     );
