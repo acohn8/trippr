@@ -1,8 +1,8 @@
-import React from "react";
-import { Segment, Image, Header, Divider, Button } from "semantic-ui-react";
-import Moment from "react-moment";
-import BookmarksContainer from "./BookmarksContainer";
-import YelpSearchContainer from "../YelpSearch/YelpSearchContainer";
+import React from 'react';
+import { Segment, Image, Header, Divider, Button } from 'semantic-ui-react';
+import Moment from 'react-moment';
+import BookmarksContainer from './BookmarksContainer';
+import YelpSearchContainer from '../YelpSearch/YelpSearchContainer';
 
 class Trip extends React.Component {
   constructor(props) {
@@ -10,7 +10,7 @@ class Trip extends React.Component {
     this.state = {
       trip: [],
       showBookmarks: true,
-      bookmarks: []
+      bookmarks: [],
     };
   }
 
@@ -18,25 +18,25 @@ class Trip extends React.Component {
     this.setState({
       trip: this.props.trips.find(trip => {
         return trip.id == this.props.match.params.tripId;
-      })
+      }),
     });
   };
 
   handleClick = () => {
     this.setState({
-      showBookmarks: !this.state.showBookmarks
+      showBookmarks: !this.state.showBookmarks,
     });
   };
 
   bookmark = yelpResult => {
-    console.log("Yelp Result", yelpResult);
+    console.log('Yelp Result', yelpResult);
     this.setState(
       {
         ...this.state,
         showBookmarks: true,
-        bookmarks: [...this.state.bookmarks, yelpResult]
+        bookmarks: [...this.state.bookmarks, yelpResult],
       },
-      () => console.log(this.state)
+      () => console.log(this.state),
     );
   };
 
@@ -52,7 +52,7 @@ class Trip extends React.Component {
           - <Moment date={this.state.trip.end_date} format="ddd MMM D, YYYY" />
         </p>
         <Button onClick={this.handleClick} primary>
-          {this.state.showBookmarks ? "Add Restaurants" : "View Bookmarks"}
+          {this.state.showBookmarks ? 'Add Restaurants' : 'View Bookmarks'}
         </Button>
         <Divider />
         {this.state.showBookmarks ? (
