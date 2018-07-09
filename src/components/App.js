@@ -1,13 +1,13 @@
-import React from 'react';
-import { Route, Switch, withRouter } from 'react-router-dom';
+import React from "react";
+import { Route, Switch, withRouter } from "react-router-dom";
 
-import Nav from './Nav';
-import RailsApi from './RailsApi';
-import SearchContainer from './LocationSearch/SearchContainer';
-import UserContainer from './UserProfile/UserContainer';
-import NewTripContainer from './TripCreation/NewTripContainer';
-import YelpSearchContainer from './YelpSearch/YelpSearchContainer';
-import Error from './Error';
+import Nav from "./Nav";
+import RailsApi from "./RailsApi";
+import SearchContainer from "./LocationSearch/SearchContainer";
+import UserContainer from "./UserProfile/UserContainer";
+import NewTripContainer from "./TripCreation/NewTripContainer";
+import YelpSearchContainer from "./YelpSearch/YelpSearchContainer";
+import Error from "./Error";
 
 class App extends React.Component {
   constructor(props) {
@@ -16,18 +16,18 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    RailsApi.getTrips().then(trips => this.setState({ trips: trips, error: false }));
+    RailsApi.getTrips().then(trips =>
+      this.setState({ trips: trips, error: false })
+    );
   }
 
   setTripLocationState = userLocation => {
     this.setState({
-      newTripLocation: [
-        {
-          coords: userLocation.features['0'].center,
-          name: userLocation.features['0'].text,
-          error: false,
-        },
-      ],
+      newTripLocation: {
+        coords: userLocation.features["0"].center,
+        name: userLocation.features["0"].text,
+        error: false
+      }
     });
   };
 
@@ -38,14 +38,14 @@ class App extends React.Component {
       .then(trip =>
         this.setState({
           trips: [...this.state.trips, trip],
-          error: false,
-        }),
+          error: false
+        })
       )
-      .then(this.props.history.push('/add-venues'));
+      .then(this.props.history.push("/add-venues"));
   };
 
   locationError = () => {
-    this.setState({ error: true }), this.props.history.push('/home');
+    this.setState({ error: true }), this.props.history.push("/home");
   };
 
   render() {
@@ -63,7 +63,10 @@ class App extends React.Component {
               return (
                 <div>
                   {this.state.error === true && (
-                    <Error message={'Location could not be found, search again'} color={'red'} />
+                    <Error
+                      message={"Location could not be found, search again"}
+                      color={"red"}
+                    />
                   )}
                   <SearchContainer
                     saveLocation={this.setTripLocationState}
@@ -96,7 +99,9 @@ class App extends React.Component {
           <Route
             path="/add-venues"
             render={props => {
-              return <YelpSearchContainer location={this.state.newTripLocation} />;
+              return (
+                <YelpSearchContainer location={this.state.newTripLocation} />
+              );
             }}
           />
         </Switch>
