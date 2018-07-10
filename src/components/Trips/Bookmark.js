@@ -1,23 +1,34 @@
-import React from "react";
-import { Card, Image, Button } from "semantic-ui-react";
+import React from 'react';
+import { Icon, Item, Label } from 'semantic-ui-react';
+import _ from 'lodash';
+import YelpPhotos from '../YelpSearch/YelpPhotos';
 
-class Bookmark extends React.Component {
-  constructor(props) {
-    super(props);
-  }
+const YelpSearchCard = ({ result, showDirections }) => (
+  <Item>
+    <Item.Image size="small" src={result.image_url} verticalAlign="middle" />
+    <Item.Content verticalAlign="middle">
+      <Item.Header as="a" href={result.url}>
+        {result.name}
+      </Item.Header>
+      <Item.Meta>
+        {_.times(Math.round(result.rating), () => <Icon color="yellow" name="star" />)}
+      </Item.Meta>
+      <Item.Description>
+        {result.location.display_address[0]} <br /> {result.location.display_address[1]}
+        <br />
+        {result.display_phone}
+        <YelpPhotos id={result.id} />
+      </Item.Description>
+      <Item.Extra>
+        <Label
+          as="a"
+          onClick={() => showDirections(result)}
+          icon="map outline"
+          content={`${Math.round(result.distance * 10) / 10} miles`}
+        />
+      </Item.Extra>
+    </Item.Content>
+  </Item>
+);
 
-  render() {
-    return (
-      <Card>
-        <Card.Content>
-          <Image floated="right" size="mini" src={this.props.bookmark.image} />
-          <Card.Header>{this.props.bookmark.title}</Card.Header>
-          <Card.Meta>{this.props.bookmark.description}</Card.Meta>
-          <Card.Description>{this.props.bookmark.address}</Card.Description>
-        </Card.Content>
-      </Card>
-    );
-  }
-}
-
-export default Bookmark;
+export default YelpSearchCard;

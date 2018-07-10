@@ -1,5 +1,5 @@
 import React from 'react';
-import { Segment, Icon, Image, Button, Grid, Item, Header } from 'semantic-ui-react';
+import { Segment, Icon, Divider, Button, Grid, Item, Header } from 'semantic-ui-react';
 import Moment from 'react-moment';
 import BookmarksContainer from './BookmarksContainer';
 import YelpSearchContainer from '../YelpSearch/YelpSearchContainer';
@@ -71,8 +71,13 @@ class Trip extends React.Component {
             </Item.Group>
           </Grid.Column>
         </Grid>
+        <Divider section />
         {this.state.showBookmarks ? (
-          <BookmarksContainer bookmarks={this.state.bookmarks} />
+          <BookmarksContainer
+            bookmarks={this.state.bookmarks}
+            latitude={this.state.trip.address_latitude}
+            longitude={this.state.trip.address_longitude}
+          />
         ) : (
           <YelpSearchContainer
             latitude={this.state.trip.address_latitude}

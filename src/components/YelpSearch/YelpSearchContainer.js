@@ -110,7 +110,6 @@ class YelpSearchContainer extends React.Component {
                 color={'brown'}
               />
             )}
-          <Divider section />
           <Header as="h3" content={`Find the best food in and around ${this.props.city}`} />
           <YelpCategoryFilter
             getYelpResults={this.getYelpResults}
