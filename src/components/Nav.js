@@ -18,7 +18,7 @@ class Nav extends React.Component {
         <Menu.Item
           as={Link}
           to={`/`}
-          name="Trippr"
+          name="Home"
           active={activeItem === "home"}
           onClick={this.handleItemClick}
         />
@@ -31,7 +31,9 @@ class Nav extends React.Component {
         />
         <Menu.Menu position="right">
           <Menu.Item>
-            <Button primary>Sign Up</Button>
+            <Button as={Link} to={`/login`} primary>
+              Login
+            </Button>
           </Menu.Item>
         </Menu.Menu>
       </Menu>
