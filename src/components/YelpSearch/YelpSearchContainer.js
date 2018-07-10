@@ -43,11 +43,7 @@ class YelpSearchContainer extends React.Component {
 
   getYelpResults = category => {
     this.setState({
-      results: [],
       loading: true,
-      complete: false,
-      filteredResults: [],
-      searchDistance: '',
     });
     fetch(
       `https://cryptic-headland-94862.herokuapp.com/https://api.yelp.com/v3/businesses/search?term=${category}&latitude=${
@@ -69,16 +65,16 @@ class YelpSearchContainer extends React.Component {
     this.setState({ error: true });
   };
 
-  filterDistance = data => {
+  filterDistance = (event, data) => {
     let filteredResults;
     let searchDistance;
-    if (data === 1 || typeof data === 'undefined') {
+    if (data.value === 1 || typeof data.value === 'undefined') {
       filteredResults = this.state.results.filter(result => result.distance <= 1).slice(0, 5);
       searchDistance = 'The best within a mile';
-    } else if (data === 2) {
+    } else if (data.value === 2) {
       filteredResults = this.state.results.filter(result => result.distance <= 3).slice(0, 5);
       searchDistance = 'The best within three miles';
-    } else if (data === 3) {
+    } else if (data.value === 3) {
       filteredResults = this.state.results.slice(0, 5);
       searchDistance = 'The best in the area';
     }
@@ -108,14 +104,13 @@ class YelpSearchContainer extends React.Component {
           getYelpResults={this.getYelpResults}
           filterDistance={this.filterDistance}
         />
-
         <Divider horizontal>Or</Divider>
         <YelpSearchBar getYelpResults={this.getYelpResults} />
         <Divider hidden />
         <YelpDistanceFilter filterDistance={this.filterDistance} />
         {this.state.loading === true && <Loader active inline="centered" />}
         {this.state.filteredResults.length > 0 && (
-          <Item.Group>
+          <Item.Group divided>
             <Header as="h2">{this.state.searchDistance}</Header>
             {this.state.filteredResults.map(result => (
               <YelpSearchCard result={result} key={result.id} bookmark={this.props.bookmark} />
