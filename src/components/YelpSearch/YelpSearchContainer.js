@@ -104,10 +104,6 @@ class YelpSearchContainer extends React.Component {
           getYelpResults={this.getYelpResults}
           filterDistance={this.filterDistance}
         />
-        <Divider horizontal>Or</Divider>
-        <YelpSearchBar getYelpResults={this.getYelpResults} />
-        <Divider hidden />
-        <YelpDistanceFilter filterDistance={this.filterDistance} />
         {this.state.loading === true && <Loader active inline="centered" />}
         {this.state.filteredResults.length > 0 && (
           <Item.Group divided>

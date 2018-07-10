@@ -1,12 +1,12 @@
 import React from 'react';
-import { Dropdown, Form } from 'semantic-ui-react';
+import { Dropdown, Form, Input } from 'semantic-ui-react';
 
 import YelpDistanceFilter from './YelpDistanceFilter';
 
 class YelpCategoryFilter extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { categories: [], loading: false };
+    this.state = { categories: [], loading: false, value: '' };
   }
 
   componentDidMount() {
@@ -43,29 +43,38 @@ class YelpCategoryFilter extends React.Component {
   };
 
   handleChange = (e, data) => {
-    this.props.getYelpResults(data.value);
+    this.setState({ value: data.value });
+  };
+
+  handleSubmit = () => {
+    this.props.getYelpResults(this.state.value);
   };
 
   render() {
-    {
-      return this.state.loading === false ? (
-        <Form>
+    return (
+      <Form onSubmit={this.handleSubmit}>
+        <Form.Group widths="equal">
           <Form.Field>
-            <label>Pick a category</label>
-            <Dropdown
-              placeholder="Select a Category"
-              fluid
-              search
-              selection
-              options={this.state.categories}
-              onChange={this.handleChange}
-            />
+            <div>
+              <Input
+                list="categories"
+                placeholder="Choose a category or search..."
+                onChange={this.handleChange}
+                value={this.state.value}
+              />
+              <datalist id="categories">
+                {this.state.categories.map(option => (
+                  <option value={option.text} key={option.value} />
+                ))}
+              </datalist>
+            </div>
           </Form.Field>
-        </Form>
-      ) : (
-        <Dropdown text="Categories" options={this.state.categories} loading />
-      );
-    }
+          <Form.Field>
+            <YelpDistanceFilter filterDistance={this.props.filterDistance} />
+          </Form.Field>
+        </Form.Group>
+      </Form>
+    );
   }
 }
 
