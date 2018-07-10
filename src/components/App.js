@@ -29,6 +29,13 @@ class App extends React.Component {
     this.setState(
       {
         user: user,
+<<<<<<< HEAD
+        newTripLocation: [],
+        trips: [],
+        tripsLoaded: false,
+        error: false
+=======
+>>>>>>> dd5b586e2ef00136557f633241461230e790a845
       },
       () => {
         this.updateTrips();
