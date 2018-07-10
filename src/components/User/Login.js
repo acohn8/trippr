@@ -61,6 +61,7 @@ class Login extends React.Component {
     RailsApi.login({
       auth: { email: this.state.email, password: this.state.password }
     }).then(res => {
+      console.log(res.jwt);
       localStorage.setItem("token", res.jwt);
       RailsApi.getUser().then(json => this.props.setUser(json));
     });
@@ -73,6 +74,7 @@ class Login extends React.Component {
         password: this.state.password
       }
     }).then(res => {
+      console.log(res);
       if (res.status === 202) {
         this.loginUser();
       } else {
