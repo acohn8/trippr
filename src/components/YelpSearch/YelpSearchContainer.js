@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid, Loader, Item, Divider, Header } from 'semantic-ui-react';
+import { Grid, Loader, Item, Divider, Header, Sticky } from 'semantic-ui-react';
 import distance from '@turf/distance';
 
 import YelpSearchCard from './YelpSearchCard';
@@ -39,6 +39,7 @@ class YelpSearchContainer extends React.Component {
       error: false,
       filteredResults: initialResults,
       searchDistance: 'The best within a mile',
+      destination: '',
     });
   };
 
@@ -82,11 +83,16 @@ class YelpSearchContainer extends React.Component {
     this.setState({
       filteredResults: filteredResults,
       searchDistance: searchDistance,
+      destination: '',
     });
   };
 
   showDirections = target => {
     this.setState({ destination: target });
+  };
+
+  removeDestination = () => {
+    this.setState({ destination: '' });
   };
 
   render() {
@@ -112,36 +118,38 @@ class YelpSearchContainer extends React.Component {
           />
         </Grid.Column>
         {this.state.loading === true && <Loader active inline="centered" />}
-        {this.state.filteredResults.length > 0 && (
-          <Grid columns={2}>
-            <Grid.Column>
-              <Item.Group divided>
-                <Header as="h2">{this.state.searchDistance}</Header>
-                {this.state.filteredResults.map(result => (
-                  <YelpSearchCard
-                    result={result}
-                    key={result.id}
-                    bookmark={this.props.bookmark}
-                    showDirections={this.showDirections}
+        {this.state.filteredResults.length > 0 &&
+          this.state.loading === false && (
+            <Grid columns={2}>
+              <Grid.Column>
+                <Item.Group divided>
+                  <Header as="h2">{this.state.searchDistance}</Header>
+                  {this.state.filteredResults.map(result => (
+                    <YelpSearchCard
+                      result={result}
+                      key={result.id}
+                      bookmark={this.props.bookmark}
+                      showDirections={this.showDirections}
+                    />
+                  ))}
+                </Item.Group>
+              </Grid.Column>
+              <Grid.Column>
+                {this.state.destination === '' ? (
+                  <Map
+                    points={this.state.filteredResults}
+                    userLocation={[this.props.longitude, this.props.latitude]}
                   />
-                ))}
-              </Item.Group>
-            </Grid.Column>
-            <Grid.Column>
-              {this.state.destination === '' ? (
-                <Map
-                  points={this.state.filteredResults}
-                  userLocation={[this.props.longitude, this.props.latitude]}
-                />
-              ) : (
-                <MapDirections
-                  userLocation={[this.props.longitude, this.props.latitude]}
-                  destination={this.state.destination}
-                />
-              )}
-            </Grid.Column>
-          </Grid>
-        )}
+                ) : (
+                  <MapDirections
+                    userLocation={[this.props.longitude, this.props.latitude]}
+                    destination={this.state.destination}
+                    removeDestination={this.removeDestination}
+                  />
+                )}
+              </Grid.Column>
+            </Grid>
+          )}
       </Grid>
     );
   }

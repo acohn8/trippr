@@ -1,7 +1,7 @@
 import React from 'react';
 import mapboxgl from 'mapbox-gl';
 import bbox from '@turf/bbox';
-import { List, Header, Divider } from 'semantic-ui-react';
+import { List, Header, Divider, Label, Icon } from 'semantic-ui-react';
 
 import MapDirectionList from './MapDirectionList';
 
@@ -133,7 +133,12 @@ class MapDirections extends React.Component {
 
     return (
       <div>
-        <Header as="h3">Directions to {this.props.destination.name}</Header>
+        <Header as="h2">
+          <Label as="a" onClick={this.props.removeDestination}>
+            <Icon name="arrow left" />
+          </Label>
+          Directions to {this.props.destination.name}
+        </Header>
         <div style={style} ref={el => (this.mapContainer = el)} />
         {this.state.steps.length > 0 && (
           <div>
