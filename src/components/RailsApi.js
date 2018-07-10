@@ -13,14 +13,22 @@ export default {
     }).then(res => res.json());
   },
 
-  getTrip: id => fetch(`${url}/trips/${id}`).then(res => res.json()),
+  getTrip: id =>
+    fetch(`${url}/trips/${id}`, {
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        Authorization: `Bearer ${token}`
+      }
+    }).then(res => res.json()),
 
   postTrip: tripData => {
     return fetch(`${url}/trips/`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Accept: "application/json"
+        Accept: "application/json",
+        Authorization: `Bearer ${token}`
       },
       body: JSON.stringify(tripData)
     })
@@ -33,7 +41,8 @@ export default {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
-        Accept: "application/json"
+        Accept: "application/json",
+        Authorization: `Bearer ${token}`
       },
       body: JSON.stringify({ status: false })
     }),
@@ -57,9 +66,18 @@ export default {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Accept: "application/json"
+        Accept: "application/json",
+        Authorization: `Bearer ${token}`
       },
       body: JSON.stringify(bookmarkData)
+    });
+  },
+
+  addUser: userInfo => {
+    return fetch(`${url}/users`, {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify(userInfo)
     });
   },
 
@@ -71,11 +89,13 @@ export default {
     }).then(res => res.json());
   },
 
-  addUser: userInfo => {
-    return fetch(`${url}/users`, {
-      method: "POST",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify(userInfo)
+  getUser: () => {
+    return fetch(`${url}/user`, {
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        Authorization: `Bearer ${token}`
+      }
     }).then(res => res.json());
   }
 };

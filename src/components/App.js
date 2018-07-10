@@ -1,14 +1,12 @@
 import React from "react";
 import md5 from "js-md5";
 import { Route, Switch, withRouter } from "react-router-dom";
-
 import Nav from "./Nav";
 import RailsApi from "./RailsApi";
 import SearchContainer from "./LocationSearch/SearchContainer";
 import UserTrips from "./Trips/UserTrips";
 import Trip from "./Trips/Trip";
-import UserContainer from "./Users/UserContainer";
-
+import UserContainer from "./User/UserContainer";
 import NewTripContainer from "./TripCreation/NewTripContainer";
 import YelpSearchContainer from "./YelpSearch/YelpSearchContainer";
 import Error from "./Error";
@@ -17,17 +15,38 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      user: null,
       newTripLocation: [],
       trips: [],
       tripsLoaded: false,
-      error: false,
-      currentUser: null
+      error: false
     };
   }
 
-  componentDidMount() {
-    this.updateTrips();
-  }
+  setUser = user => {
+    this.setState(
+      {
+        user: user
+      },
+      () => {
+        this.updateTrips();
+        this.props.history.push("/");
+      }
+    );
+  };
+
+  logoutUser = user => {
+    if (this.state.user) {
+      localStorage.removeItem("token");
+      this.setState({
+        user: null,
+        newTripLocation: [],
+        trips: [],
+        tripsLoaded: false,
+        error: false
+      });
+    }
+  };
 
   updateTrips = () => {
     RailsApi.getTrips().then(trips =>
@@ -93,7 +112,8 @@ class App extends React.Component {
       address_latitude: this.state.newTripLocation.coords[1],
       address_longitude: this.state.newTripLocation.coords[0],
       image: this.state.image,
-      status: true
+      status: true,
+      user_id: this.state.user.id
     };
     RailsApi.postTrip(tripData).then(trip => {
       this.setState(
@@ -119,7 +139,13 @@ class App extends React.Component {
       <div className="ui container">
         <Route
           render={props => {
-            return <Nav location={this.state.newTripLocation.name} />;
+            return (
+              <Nav
+                location={this.state.newTripLocation.name}
+                user={this.state.user}
+                logoutUser={this.logoutUser}
+              />
+            );
           }}
         />
         <Switch>
@@ -148,7 +174,7 @@ class App extends React.Component {
             exact
             path="/login"
             render={props => {
-              return <UserContainer />;
+              return <UserContainer setUser={this.setUser} />;
             }}
           />
           <Route

@@ -31,8 +31,13 @@ class Nav extends React.Component {
         />
         <Menu.Menu position="right">
           <Menu.Item>
-            <Button as={Link} to={`/login`} primary>
-              Login
+            <Button
+              as={Link}
+              to={`/login`}
+              onClick={this.props.logoutUser}
+              primary
+            >
+              {this.props.user ? "Logout" : "Login"}
             </Button>
           </Menu.Item>
         </Menu.Menu>
