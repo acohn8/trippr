@@ -69,23 +69,19 @@ class Trip extends React.Component {
                 </Item.Content>
               </Item>
             </Item.Group>
-            <Grid.Row columns={1}>
-              <Grid.Column>
-                {this.state.showBookmarks ? (
-                  <BookmarksContainer bookmarks={this.state.bookmarks} />
-                ) : (
-                  <YelpSearchContainer
-                    latitude={this.state.trip.address_latitude}
-                    longitude={this.state.trip.address_longitude}
-                    city={this.state.trip.city}
-                    bookmark={this.bookmark}
-                    image={this.state.trip.image}
-                  />
-                )}
-              </Grid.Column>
-            </Grid.Row>
           </Grid.Column>
         </Grid>
+        {this.state.showBookmarks ? (
+          <BookmarksContainer bookmarks={this.state.bookmarks} />
+        ) : (
+          <YelpSearchContainer
+            latitude={this.state.trip.address_latitude}
+            longitude={this.state.trip.address_longitude}
+            city={this.state.trip.city}
+            bookmark={this.bookmark}
+            image={this.state.trip.image}
+          />
+        )}
       </Segment>
     );
   }
