@@ -2,20 +2,12 @@ import React from 'react';
 import md5 from 'js-md5';
 import { Route, Switch, withRouter } from 'react-router-dom';
 
-<<<<<<< HEAD
 import Nav from './Nav';
 import RailsApi from './RailsApi';
 import SearchContainer from './LocationSearch/SearchContainer';
 import UserTrips from './Trips/UserTrips';
 import Trip from './Trips/Trip';
-=======
-import Nav from "./Nav";
-import RailsApi from "./RailsApi";
-import SearchContainer from "./LocationSearch/SearchContainer";
-import UserTrips from "./Trips/UserTrips";
-import Trip from "./Trips/Trip";
-import UserContainer from "./Users/UserContainer";
->>>>>>> ed25fb13f2253a09ed6e4318420aa5d448a44f48
+import UserContainer from './Users/UserContainer';
 
 import NewTripContainer from './TripCreation/NewTripContainer';
 import YelpSearchContainer from './YelpSearch/YelpSearchContainer';
@@ -29,10 +21,7 @@ class App extends React.Component {
       trips: [],
       tripsLoaded: false,
       error: false,
-<<<<<<< HEAD
-=======
-      currentUser: null
->>>>>>> ed25fb13f2253a09ed6e4318420aa5d448a44f48
+      currentUser: null,
     };
   }
 
