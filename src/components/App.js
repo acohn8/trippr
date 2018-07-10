@@ -59,7 +59,12 @@ class App extends React.Component {
       `https://cryptic-headland-94862.herokuapp.com/https://www.wikidata.org/w/api.php?action=wbgetclaims&entity=${wikiDataId}&property=P18&format=json`,
     )
       .then(res => res.json())
-      .then(json => this.createImage(json.claims.P18['0'].mainsnak.datavalue.value));
+      .then(json => this.createImage(json.claims.P18['0'].mainsnak.datavalue.value))
+      .catch(this.noImage);
+  };
+
+  noImage = () => {
+    this.setState({ image: '' });
   };
 
   createImage = name => {

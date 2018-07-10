@@ -1,11 +1,12 @@
 import React from 'react';
-import { Grid, Segment, Loader, Item, Divider, Header, Card } from 'semantic-ui-react';
+import { Grid, Loader, Item, Divider, Header } from 'semantic-ui-react';
 import distance from '@turf/distance';
 
-import YelpHeader from './YelpHeader';
 import YelpSearchCard from './YelpSearchCard';
 import YelpCategoryFilter from './YelpCategoryFilter';
 import Error from '../Error';
+import YelpSearchBar from './YelpSearchBar';
+import YelpDistanceFilter from './YelpDistanceFilter';
 
 class YelpSearchContainer extends React.Component {
   constructor(props) {
@@ -101,11 +102,16 @@ class YelpSearchContainer extends React.Component {
             />
           )}
         <Divider section />
-        <Header as="h4" content={`Find the best food in and around ${this.props.city}`} />
+        <Header as="h3" content={`Find the best food in and around ${this.props.city}`} />
         <YelpCategoryFilter
           getYelpResults={this.getYelpResults}
           filterDistance={this.filterDistance}
         />
+
+        <Divider horizontal>Or</Divider>
+        <YelpSearchBar getYelpResults={this.getYelpResults} />
+        <Divider hidden />
+        <YelpDistanceFilter filterDistance={this.filterDistance} />
         {this.state.loading === true && <Loader active inline="centered" />}
         {this.state.filteredResults.length > 0 && (
           <Item.Group>
