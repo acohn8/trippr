@@ -1,9 +1,10 @@
 import React from 'react';
 import mapboxgl from 'mapbox-gl';
 import bbox from '@turf/bbox';
-import { List, Header, Divider, Label, Icon } from 'semantic-ui-react';
+import { List, Header, Divider, Label, Icon, Form } from 'semantic-ui-react';
 
 import MapDirectionList from './MapDirectionList';
+import MapDirectionFilter from './MapDirectionsFilter';
 
 mapboxgl.accessToken =
   'pk.eyJ1IjoiYWRhbWNvaG4iLCJhIjoiY2pod2Z5ZWQzMDBtZzNxcXNvaW8xcGNiNiJ9.fHYsK6UNzqknxKuchhfp7A';
@@ -14,18 +15,13 @@ class MapDirections extends React.Component {
     this.state = {
       steps: [],
       boundingBox: [],
+      directionsType: 'driving',
     };
   }
 
   componentDidUpdate(nextProps) {
     if (this.props !== nextProps) {
-      this.map.removeLayer('route');
-      this.map.removeSource('route');
-      this.map.removeLayer('start');
-      this.map.removeSource('start');
-      this.map.removeLayer('end');
-      this.map.removeSource('end');
-      this.setState({ steps: [], boundingBox: [] }, this.fetchDirections);
+      this.resetMap();
     }
   }
 
@@ -41,11 +37,21 @@ class MapDirections extends React.Component {
     this.map.remove();
   }
 
+  resetMap = () => {
+    this.map.removeLayer('route');
+    this.map.removeSource('route');
+    this.map.removeLayer('start');
+    this.map.removeSource('start');
+    this.map.removeLayer('end');
+    this.map.removeSource('end');
+    this.setState({ steps: [], boundingBox: [] }, this.fetchDirections);
+  };
+
   fetchDirections = () => {
     fetch(
-      `https://api.mapbox.com/directions/v5/mapbox/driving/${this.props.userLocation[0]}%2C${
-        this.props.userLocation[1]
-      }%3B${this.props.destination.coordinates.longitude}%2C${
+      `https://api.mapbox.com/directions/v5/mapbox/${this.state.directionsType}/${
+        this.props.userLocation[0]
+      }%2C${this.props.userLocation[1]}%3B${this.props.destination.coordinates.longitude}%2C${
         this.props.destination.coordinates.latitude
       }.json?access_token=pk.eyJ1IjoiYWRhbWNvaG4iLCJhIjoiY2pod2Z5ZWQzMDBtZzNxcXNvaW8xcGNiNiJ9.fHYsK6UNzqknxKuchhfp7A&geometries=geojson&steps=true`,
     )
@@ -56,6 +62,7 @@ class MapDirections extends React.Component {
   };
 
   addRoute = response => {
+    console.log(response);
     const coords = response.routes[0].geometry;
     this.map.addLayer({
       id: 'route',
@@ -122,6 +129,23 @@ class MapDirections extends React.Component {
     this.map.fitBounds(this.state.boundingBox, { padding: 30 });
   };
 
+  setDirectionType = data => {
+    let directionsType;
+    if (data === 1 || typeof data === 'undefined') {
+      directionsType = 'driving';
+    } else if (data === 2) {
+      directionsType = 'walking';
+    } else if (data === 3) {
+      directionsType = 'cycling';
+    }
+    this.setState(
+      {
+        directionsType,
+      },
+      this.resetMap,
+    );
+  };
+
   render() {
     const style = {
       position: 'relative',
@@ -137,12 +161,19 @@ class MapDirections extends React.Component {
           <Label as="a" onClick={this.props.removeDestination}>
             <Icon name="arrow left" />
           </Label>
-          Directions to {this.props.destination.name}
+          Directions to {this.props.destination.name} ({this.state.directionsType})
         </Header>
         <div style={style} ref={el => (this.mapContainer = el)} />
         {this.state.steps.length > 0 && (
           <div>
             <Divider hidden />
+            <Form>
+              <Form.Group widths="equal">
+                <Form.Field>
+                  <MapDirectionFilter setDirectionType={this.setDirectionType} />
+                </Form.Field>
+              </Form.Group>
+            </Form>
             <Header as="h4">Steps</Header>
             <List animated verticalAlign="middle" divided relaxed>
               {this.state.steps.map(step => <MapDirectionList step={step} />)}

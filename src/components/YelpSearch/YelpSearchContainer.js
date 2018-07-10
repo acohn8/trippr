@@ -115,6 +115,8 @@ class YelpSearchContainer extends React.Component {
             getYelpResults={this.getYelpResults}
             filterDistance={this.filterDistance}
           />
+          {this.state.filteredResults.length > 0 &&
+            this.state.loading === false && <Header as="h2">{this.state.searchDistance}</Header>}
         </Grid.Column>
         {this.state.loading === true && <Loader active inline="centered" />}
         {this.state.filteredResults.length > 0 &&
@@ -122,7 +124,6 @@ class YelpSearchContainer extends React.Component {
             <Grid columns={2}>
               <Grid.Column>
                 <Item.Group divided>
-                  <Header as="h2">{this.state.searchDistance}</Header>
                   {this.state.filteredResults.map(result => (
                     <YelpSearchCard
                       result={result}
