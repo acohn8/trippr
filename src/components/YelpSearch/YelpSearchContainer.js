@@ -1,12 +1,12 @@
 import React from 'react';
-import { Grid, Loader, Item, Divider, Header } from 'semantic-ui-react';
+import { Grid, Loader, Item, Divider, Header, Sticky } from 'semantic-ui-react';
 import distance from '@turf/distance';
 
 import YelpSearchCard from './YelpSearchCard';
 import YelpCategoryFilter from './YelpCategoryFilter';
 import Error from '../Error';
-import YelpSearchBar from './YelpSearchBar';
-import YelpDistanceFilter from './YelpDistanceFilter';
+import Map from '../Map/Map';
+import MapDirections from '../Map/MapDirections';
 
 class YelpSearchContainer extends React.Component {
   constructor(props) {
@@ -17,6 +17,7 @@ class YelpSearchContainer extends React.Component {
       complete: false,
       filteredResults: [],
       searchDistance: '',
+      destination: '',
     };
   }
 
@@ -38,6 +39,7 @@ class YelpSearchContainer extends React.Component {
       error: false,
       filteredResults: initialResults,
       searchDistance: 'The best within a mile',
+      destination: '',
     });
   };
 
@@ -81,39 +83,73 @@ class YelpSearchContainer extends React.Component {
     this.setState({
       filteredResults: filteredResults,
       searchDistance: searchDistance,
+      destination: '',
     });
+  };
+
+  showDirections = target => {
+    this.setState({ destination: target });
+  };
+
+  removeDestination = () => {
+    this.setState({ destination: '' });
   };
 
   render() {
     return (
-      <Grid.Row>
-        {this.state.error === true ||
-          (typeof this.state.results === 'undefined' && (
-            <Error message={'Location not found. Please select a trip'} color={'red'} />
-          ))}
-        {this.state.complete === true &&
-          this.state.filteredResults.length === 0 && (
-            <Error
-              message={'No results found, please adjust your distance filter or search again.'}
-              color={'brown'}
-            />
-          )}
-        <Divider section />
-        <Header as="h3" content={`Find the best food in and around ${this.props.city}`} />
-        <YelpCategoryFilter
-          getYelpResults={this.getYelpResults}
-          filterDistance={this.filterDistance}
-        />
-        {this.state.loading === true && <Loader active inline="centered" />}
-        {this.state.filteredResults.length > 0 && (
-          <Item.Group divided>
-            <Header as="h2">{this.state.searchDistance}</Header>
-            {this.state.filteredResults.map(result => (
-              <YelpSearchCard result={result} key={result.id} bookmark={this.props.bookmark} />
+      <Grid columns={1}>
+        <Grid.Column>
+          {this.state.error === true ||
+            (typeof this.state.results === 'undefined' && (
+              <Error message={'Location not found. Please select a trip'} color={'red'} />
             ))}
-          </Item.Group>
-        )}
-      </Grid.Row>
+          {this.state.complete === true &&
+            this.state.filteredResults.length === 0 && (
+              <Error
+                message={'No results found, please adjust your distance filter or search again.'}
+                color={'brown'}
+              />
+            )}
+          <Header as="h3" content={`Find the best food in and around ${this.props.city}`} />
+          <YelpCategoryFilter
+            getYelpResults={this.getYelpResults}
+            filterDistance={this.filterDistance}
+          />
+        </Grid.Column>
+        {this.state.loading === true && <Loader active inline="centered" />}
+        {this.state.filteredResults.length > 0 &&
+          this.state.loading === false && (
+            <Grid columns={2}>
+              <Grid.Column>
+                <Item.Group divided>
+                  <Header as="h2">{this.state.searchDistance}</Header>
+                  {this.state.filteredResults.map(result => (
+                    <YelpSearchCard
+                      result={result}
+                      key={result.id}
+                      bookmark={this.props.bookmark}
+                      showDirections={this.showDirections}
+                    />
+                  ))}
+                </Item.Group>
+              </Grid.Column>
+              <Grid.Column>
+                {this.state.destination === '' ? (
+                  <Map
+                    points={this.state.filteredResults}
+                    userLocation={[this.props.longitude, this.props.latitude]}
+                  />
+                ) : (
+                  <MapDirections
+                    userLocation={[this.props.longitude, this.props.latitude]}
+                    destination={this.state.destination}
+                    removeDestination={this.removeDestination}
+                  />
+                )}
+              </Grid.Column>
+            </Grid>
+          )}
+      </Grid>
     );
   }
 }

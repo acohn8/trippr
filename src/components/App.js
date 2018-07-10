@@ -80,7 +80,6 @@ class App extends React.Component {
         feature.hasOwnProperty("wikidata")
       ).wikidata;
     }
-    console.log(wikiDataId);
     fetch(
       `https://cryptic-headland-94862.herokuapp.com/https://www.wikidata.org/w/api.php?action=wbgetclaims&entity=${wikiDataId}&property=P18&format=json`
     )
