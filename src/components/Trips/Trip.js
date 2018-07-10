@@ -60,12 +60,14 @@ class Trip extends React.Component {
                       {<Moment format="MMMM Do YYYY">{this.state.trip.end_date}</Moment>}
                     </span>
                   </Item.Meta>
-                  <Item.Extra>
-                    <Button floated="right" onClick={this.handleClick} primary>
-                      {this.state.showBookmarks ? 'Add Restaurants' : 'View Bookmarks'}
-                      <Icon name="right chevron" />
-                    </Button>
-                  </Item.Extra>
+                  {this.state.bookmarks.length > 0 && (
+                    <Item.Extra>
+                      <Button floated="right" onClick={this.handleClick} primary>
+                        {this.state.showBookmarks ? 'Add Restaurants' : 'View Bookmarks'}
+                        <Icon name="right chevron" />
+                      </Button>
+                    </Item.Extra>
+                  )}
                 </Item.Content>
               </Item>
             </Item.Group>

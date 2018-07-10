@@ -1,5 +1,5 @@
 import React from 'react';
-import { Dropdown, Form, Input } from 'semantic-ui-react';
+import { Form, Input } from 'semantic-ui-react';
 
 import YelpDistanceFilter from './YelpDistanceFilter';
 

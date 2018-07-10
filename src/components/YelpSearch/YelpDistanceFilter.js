@@ -1,11 +1,5 @@
 import React from 'react';
-import { Dropdown, Form, Radio } from 'semantic-ui-react';
-
-const options = [
-  { key: 'oneMile', text: '1 mile', value: 1 },
-  { key: 'threeMiles', text: '3 miles', value: 2 },
-  { key: 'wholeArea', text: 'Whole area', value: 3 },
-];
+import { Form, Radio } from 'semantic-ui-react';
 
 class YelpDistanceFilter extends React.Component {
   constructor(props) {
