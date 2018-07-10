@@ -6,6 +6,7 @@ import YelpSearchCard from './YelpSearchCard';
 import YelpCategoryFilter from './YelpCategoryFilter';
 import Error from '../Error';
 import Map from '../Map/Map';
+import MapDirections from '../Map/MapDirections';
 
 class YelpSearchContainer extends React.Component {
   constructor(props) {
@@ -16,6 +17,7 @@ class YelpSearchContainer extends React.Component {
       complete: false,
       filteredResults: [],
       searchDistance: '',
+      destination: '',
     };
   }
 
@@ -83,6 +85,10 @@ class YelpSearchContainer extends React.Component {
     });
   };
 
+  showDirections = target => {
+    this.setState({ destination: target });
+  };
+
   render() {
     return (
       <Grid columns={1}>
@@ -112,15 +118,27 @@ class YelpSearchContainer extends React.Component {
               <Item.Group divided>
                 <Header as="h2">{this.state.searchDistance}</Header>
                 {this.state.filteredResults.map(result => (
-                  <YelpSearchCard result={result} key={result.id} bookmark={this.props.bookmark} />
+                  <YelpSearchCard
+                    result={result}
+                    key={result.id}
+                    bookmark={this.props.bookmark}
+                    showDirections={this.showDirections}
+                  />
                 ))}
               </Item.Group>
             </Grid.Column>
             <Grid.Column>
-              <Map
-                points={this.state.filteredResults}
-                userLocation={[this.props.longitude, this.props.latitude]}
-              />
+              {this.state.destination === '' ? (
+                <Map
+                  points={this.state.filteredResults}
+                  userLocation={[this.props.longitude, this.props.latitude]}
+                />
+              ) : (
+                <MapDirections
+                  userLocation={[this.props.longitude, this.props.latitude]}
+                  destination={this.state.destination}
+                />
+              )}
             </Grid.Column>
           </Grid>
         )}

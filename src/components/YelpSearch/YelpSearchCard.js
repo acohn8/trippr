@@ -1,9 +1,9 @@
 import React from 'react';
-import { Icon, Item } from 'semantic-ui-react';
+import { Icon, Item, Label } from 'semantic-ui-react';
 import _ from 'lodash';
 import YelpPhotos from './YelpPhotos';
 
-const YelpSearchCard = ({ result, bookmark }) => (
+const YelpSearchCard = ({ result, bookmark, showDirections }) => (
   <Item>
     <Item.Image
       onClick={() => bookmark(result)}
@@ -11,11 +11,11 @@ const YelpSearchCard = ({ result, bookmark }) => (
       src={result.image_url}
       verticalAlign="middle"
       label={{
-          as: 'a',
-          color: 'olive',
-          icon: 'bookmark',
-          ribbon: true,
-        }}
+        as: 'a',
+        color: 'olive',
+        icon: 'bookmark',
+        ribbon: true,
+      }}
     />
     <Item.Content verticalAlign="middle">
       <Item.Header as="a" href={result.url}>
@@ -30,7 +30,14 @@ const YelpSearchCard = ({ result, bookmark }) => (
         {result.display_phone}
         <YelpPhotos id={result.id} />
       </Item.Description>
-      <Item.Extra>{`${Math.round(result.distance * 10) / 10} miles`}</Item.Extra>
+      <Item.Extra>
+        <Label
+          as="a"
+          onClick={() => showDirections(result)}
+          icon="map outline"
+          content={`${Math.round(result.distance * 10) / 10} miles`}
+        />
+      </Item.Extra>
     </Item.Content>
   </Item>
 );
