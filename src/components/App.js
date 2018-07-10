@@ -172,6 +172,19 @@ class App extends React.Component {
             }}
           />
           <Route
+            exact
+            path="/trips"
+            render={props => {
+              return (
+                <UserTrips
+                  trips={this.state.trips}
+                  updateTrips={this.updateTrips}
+                  image={this.state.image}
+                />
+              );
+            }}
+          />
+          <Route
             path="/trips/:tripId"
             render={props => {
               return (
