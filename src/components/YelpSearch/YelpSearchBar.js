@@ -1,6 +1,5 @@
 import React from 'react';
-import _ from 'lodash';
-import { Input, Form, Segment } from 'semantic-ui-react';
+import { Input, Form } from 'semantic-ui-react';
 
 class YelpSearchBar extends React.Component {
   constructor(props) {
@@ -30,15 +29,10 @@ class YelpSearchBar extends React.Component {
 
   render() {
     return (
-      <Form fluid onSubmit={this.handleSubmit}>
+      <Form onSubmit={this.handleSubmit}>
         <Form.Field>
           <label>Search for a something specific</label>
-          <Input
-            fluid
-            placeholder="Search..."
-            value={this.state.search}
-            onChange={this.handleChange}
-          />
+          <Input placeholder="Search..." value={this.state.search} onChange={this.handleChange} />
         </Form.Field>
       </Form>
     );

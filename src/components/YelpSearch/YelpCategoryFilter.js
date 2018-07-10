@@ -48,25 +48,23 @@ class YelpCategoryFilter extends React.Component {
 
   render() {
     {
-      if (this.state.loading === false) {
-        return (
-          <Form>
-            <Form.Field>
-              <label>Pick a category</label>
-              <Dropdown
-                placeholder="Categories"
-                fluid
-                search
-                selection
-                options={this.state.categories}
-                onChange={this.handleChange}
-              />
-            </Form.Field>
-          </Form>
-        );
-      } else {
-        return <Dropdown text="Categories" options={this.state.categories} loading />;
-      }
+      return this.state.loading === false ? (
+        <Form>
+          <Form.Field>
+            <label>Pick a category</label>
+            <Dropdown
+              placeholder="Select a Category"
+              fluid
+              search
+              selection
+              options={this.state.categories}
+              onChange={this.handleChange}
+            />
+          </Form.Field>
+        </Form>
+      ) : (
+        <Dropdown text="Categories" options={this.state.categories} loading />
+      );
     }
   }
 }
