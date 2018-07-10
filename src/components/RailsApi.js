@@ -1,8 +1,20 @@
-const url = "http://localhost:3000/api/v1/";
+const url = "http://localhost:3000/api/v1";
+
+let token = localStorage.getItem("token");
 
 export default {
-  getTrips: () => fetch(`${url}/trips`).then(res => res.json()),
+  getTrips: () => {
+    return fetch(`${url}/trips`, {
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        Authorization: `Bearer ${token}`
+      }
+    }).then(res => res.json());
+  },
+
   getTrip: id => fetch(`${url}/trips/${id}`).then(res => res.json()),
+
   postTrip: tripData => {
     return fetch(`${url}/trips/`, {
       method: "POST",
@@ -15,6 +27,7 @@ export default {
       .then(res => res.json())
       .catch(error => console.error(error));
   },
+
   archiveTrip: id =>
     fetch(`${url}/trips/${id}`, {
       method: "PATCH",
@@ -24,6 +37,7 @@ export default {
       },
       body: JSON.stringify({ status: false })
     }),
+
   postYelpRestaurantBookmark: (yelpData, trip_id) => {
     let bookmarkData = {
       title: yelpData.name,
@@ -47,5 +61,21 @@ export default {
       },
       body: JSON.stringify(bookmarkData)
     });
+  },
+
+  login: userInfo => {
+    return fetch(`${url}/user_token`, {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify(userInfo)
+    }).then(res => res.json());
+  },
+
+  addUser: userInfo => {
+    return fetch(`${url}/users`, {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify(userInfo)
+    }).then(res => res.json());
   }
 };

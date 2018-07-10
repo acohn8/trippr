@@ -7,6 +7,7 @@ import RailsApi from "./RailsApi";
 import SearchContainer from "./LocationSearch/SearchContainer";
 import UserTrips from "./Trips/UserTrips";
 import Trip from "./Trips/Trip";
+import UserContainer from "./Users/UserContainer";
 
 import NewTripContainer from "./TripCreation/NewTripContainer";
 import YelpSearchContainer from "./YelpSearch/YelpSearchContainer";
@@ -19,7 +20,8 @@ class App extends React.Component {
       newTripLocation: [],
       trips: [],
       tripsLoaded: false,
-      error: false
+      error: false,
+      currentUser: null
     };
   }
 
@@ -140,6 +142,13 @@ class App extends React.Component {
                   />
                 </div>
               );
+            }}
+          />
+          <Route
+            exact
+            path="/login"
+            render={props => {
+              return <UserContainer />;
             }}
           />
           <Route
