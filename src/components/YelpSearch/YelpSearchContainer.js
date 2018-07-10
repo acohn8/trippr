@@ -65,16 +65,16 @@ class YelpSearchContainer extends React.Component {
     this.setState({ error: true });
   };
 
-  filterDistance = (event, data) => {
+  filterDistance = data => {
     let filteredResults;
     let searchDistance;
-    if (data.value === 1 || typeof data.value === 'undefined') {
+    if (data === 1 || typeof data === 'undefined') {
       filteredResults = this.state.results.filter(result => result.distance <= 1).slice(0, 5);
       searchDistance = 'The best within a mile';
-    } else if (data.value === 2) {
+    } else if (data === 2) {
       filteredResults = this.state.results.filter(result => result.distance <= 3).slice(0, 5);
       searchDistance = 'The best within three miles';
-    } else if (data.value === 3) {
+    } else if (data === 3) {
       filteredResults = this.state.results.slice(0, 5);
       searchDistance = 'The best in the area';
     }
