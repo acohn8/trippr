@@ -1,6 +1,6 @@
 import React from 'react';
 import Bookmark from './Bookmark';
-import { Item, Header, Grid, Loader, Divider } from 'semantic-ui-react';
+import { Item, Header, Grid, Loader } from 'semantic-ui-react';
 import distance from '@turf/distance';
 
 import Map from '../Map/Map';
