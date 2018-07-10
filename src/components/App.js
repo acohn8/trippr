@@ -26,7 +26,11 @@ class App extends React.Component {
   setUser = user => {
     this.setState(
       {
-        user: user
+        user: user,
+        newTripLocation: [],
+        trips: [],
+        tripsLoaded: false,
+        error: false
       },
       () => {
         this.updateTrips();

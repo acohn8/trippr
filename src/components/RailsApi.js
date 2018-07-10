@@ -96,6 +96,6 @@ export default {
         Accept: "application/json",
         Authorization: `Bearer ${token}`
       }
-    }).then(res => res.json());
+    });
   }
 };
