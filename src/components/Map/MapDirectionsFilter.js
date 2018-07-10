@@ -14,29 +14,35 @@ class MapDirectionsFilter extends React.Component {
   render() {
     const { value } = this.state;
     return (
-      <Form.Group inline>
-        <Form.Field
-          control={Radio}
-          label="Driving"
-          value={1}
-          checked={value === 1}
-          onChange={this.handleChange}
-        />
-        <Form.Field
-          control={Radio}
-          label="Walking"
-          value={2}
-          checked={value === 2}
-          onChange={this.handleChange}
-        />
-        <Form.Field
-          control={Radio}
-          label="Cycling"
-          value={3}
-          checked={value === 3}
-          onChange={this.handleChange}
-        />
-      </Form.Group>
+      <Form>
+        <Form.Group widths="equal">
+          <Form.Field>
+            <Form.Group inline>
+              <Form.Field
+                control={Radio}
+                label="Driving"
+                value={1}
+                checked={value === 1}
+                onChange={this.handleChange}
+              />
+              <Form.Field
+                control={Radio}
+                label="Walking"
+                value={2}
+                checked={value === 2}
+                onChange={this.handleChange}
+              />
+              <Form.Field
+                control={Radio}
+                label="Cycling"
+                value={3}
+                checked={value === 3}
+                onChange={this.handleChange}
+              />
+            </Form.Group>
+          </Form.Field>
+        </Form.Group>
+      </Form>
     );
   }
 }

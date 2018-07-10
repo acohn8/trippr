@@ -4,7 +4,6 @@ import bbox from '@turf/bbox';
 import { List, Header, Divider, Label, Icon, Form } from 'semantic-ui-react';
 
 import MapDirectionList from './MapDirectionList';
-import MapDirectionFilter from './MapDirectionsFilter';
 
 mapboxgl.accessToken =
   'pk.eyJ1IjoiYWRhbWNvaG4iLCJhIjoiY2pod2Z5ZWQzMDBtZzNxcXNvaW8xcGNiNiJ9.fHYsK6UNzqknxKuchhfp7A';
@@ -15,7 +14,6 @@ class MapDirections extends React.Component {
     this.state = {
       steps: [],
       boundingBox: [],
-      directionsType: 'driving',
     };
   }
 
@@ -49,7 +47,7 @@ class MapDirections extends React.Component {
 
   fetchDirections = () => {
     fetch(
-      `https://api.mapbox.com/directions/v5/mapbox/${this.state.directionsType}/${
+      `https://api.mapbox.com/directions/v5/mapbox/${this.props.directionsType}/${
         this.props.userLocation[0]
       }%2C${this.props.userLocation[1]}%3B${this.props.destination.coordinates.longitude}%2C${
         this.props.destination.coordinates.latitude
@@ -129,23 +127,6 @@ class MapDirections extends React.Component {
     this.map.fitBounds(this.state.boundingBox, { padding: 30 });
   };
 
-  setDirectionType = data => {
-    let directionsType;
-    if (data === 1 || typeof data === 'undefined') {
-      directionsType = 'driving';
-    } else if (data === 2) {
-      directionsType = 'walking';
-    } else if (data === 3) {
-      directionsType = 'cycling';
-    }
-    this.setState(
-      {
-        directionsType,
-      },
-      this.resetMap,
-    );
-  };
-
   render() {
     const style = {
       position: 'relative',
@@ -161,19 +142,12 @@ class MapDirections extends React.Component {
           <Label as="a" onClick={this.props.removeDestination}>
             <Icon name="arrow left" />
           </Label>
-          Directions to {this.props.destination.name} ({this.state.directionsType})
+          Directions to {this.props.destination.name} ({this.props.directionsType})
         </Header>
         <div style={style} ref={el => (this.mapContainer = el)} />
         {this.state.steps.length > 0 && (
           <div>
             <Divider hidden />
-            <Form>
-              <Form.Group widths="equal">
-                <Form.Field>
-                  <MapDirectionFilter setDirectionType={this.setDirectionType} />
-                </Form.Field>
-              </Form.Group>
-            </Form>
             <Header as="h4">Steps</Header>
             <List animated verticalAlign="middle" divided relaxed>
               {this.state.steps.map(step => <MapDirectionList step={step} />)}

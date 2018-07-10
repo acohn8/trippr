@@ -7,6 +7,7 @@ import YelpCategoryFilter from './YelpCategoryFilter';
 import Error from '../Error';
 import Map from '../Map/Map';
 import MapDirections from '../Map/MapDirections';
+import MapDirectionsFilter from '../Map/MapDirectionsFilter';
 
 class YelpSearchContainer extends React.Component {
   constructor(props) {
@@ -18,6 +19,7 @@ class YelpSearchContainer extends React.Component {
       filteredResults: [],
       searchDistance: '',
       destination: '',
+      directionsType: 'walking',
     };
   }
 
@@ -95,6 +97,18 @@ class YelpSearchContainer extends React.Component {
     this.setState({ destination: '' });
   };
 
+  setDirectionType = data => {
+    let directionsType;
+    if (data === 1 || typeof data === 'undefined') {
+      directionsType = 'driving';
+    } else if (data === 2) {
+      directionsType = 'walking';
+    } else if (data === 3) {
+      directionsType = 'cycling';
+    }
+    this.setState({ directionsType: directionsType });
+  };
+
   render() {
     return (
       <Grid columns={1}>
@@ -141,11 +155,15 @@ class YelpSearchContainer extends React.Component {
                     userLocation={[this.props.longitude, this.props.latitude]}
                   />
                 ) : (
-                  <MapDirections
-                    userLocation={[this.props.longitude, this.props.latitude]}
-                    destination={this.state.destination}
-                    removeDestination={this.removeDestination}
-                  />
+                  <div>
+                    <MapDirections
+                      userLocation={[this.props.longitude, this.props.latitude]}
+                      destination={this.state.destination}
+                      removeDestination={this.removeDestination}
+                      directionsType={this.state.directionsType}
+                    />
+                    <MapDirectionsFilter setDirectionType={this.setDirectionType} />
+                  </div>
                 )}
               </Grid.Column>
             </Grid>
