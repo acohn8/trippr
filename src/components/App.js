@@ -66,7 +66,12 @@ class App extends React.Component {
       .then(res => res.json())
       .then(json =>
         this.createImage(json.claims.P18["0"].mainsnak.datavalue.value)
-      );
+      )
+      .catch(this.noImage);
+  };
+
+  noImage = () => {
+    this.setState({ image: "" });
   };
 
   createImage = name => {
