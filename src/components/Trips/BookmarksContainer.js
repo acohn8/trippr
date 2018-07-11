@@ -1,15 +1,16 @@
 import React from 'react';
 import Bookmark from './Bookmark';
-import { Item, Header, Grid, Loader } from 'semantic-ui-react';
+import { Item, Header, Grid, Loader, Icon, Label } from 'semantic-ui-react';
 import distance from '@turf/distance';
 
 import Map from '../Map/Map';
 import MapDirections from '../Map/MapDirections';
+import MapDirectionsFilter from '../Map/MapDirectionsFilter';
 
 class BookmarksContainer extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { bookmarks: [], destination: '' };
+    this.state = { bookmarks: [], destination: '', directionsType: 'driving' };
   }
 
   componentDidMount() {
@@ -52,11 +53,25 @@ class BookmarksContainer extends React.Component {
     this.setState({ destination: '' });
   };
 
+  setDirectionType = (event, data) => {
+    let directionsType;
+    if (data.value === 1 || typeof data.value === 'undefined') {
+      directionsType = 'driving';
+    } else if (data.value === 2) {
+      directionsType = 'walking';
+    } else if (data.value === 3) {
+      directionsType = 'cycling';
+    }
+    this.setState({ directionsType: directionsType });
+  };
+
   render() {
     {
       return this.state.bookmarks.length === this.props.bookmarks.length ? (
         <div>
-          <Header as="h2">Bookmarks</Header>
+          <Header as="h2" block>
+            Bookmarks
+          </Header>
           <Grid columns={2}>
             <Grid.Column>
               <Item.Group divided>
@@ -72,11 +87,21 @@ class BookmarksContainer extends React.Component {
                   userLocation={[this.props.longitude, this.props.latitude]}
                 />
               ) : (
-                <MapDirections
-                  userLocation={[this.props.longitude, this.props.latitude]}
-                  destination={this.state.destination}
-                  removeDestination={this.removeDestination}
-                />
+                <div>
+                  <Header as="h2">
+                    <Label as="a" onClick={this.removeDestination}>
+                      <Icon name="arrow left" />
+                    </Label>
+                    Directions to {this.state.destination.name} ({this.state.directionsType})
+                  </Header>
+                  <MapDirectionsFilter setDirectionType={this.setDirectionType} />
+                  <MapDirections
+                    userLocation={[this.props.longitude, this.props.latitude]}
+                    destination={this.state.destination}
+                    removeDestination={this.removeDestination}
+                    directionsType={this.state.directionsType}
+                  />
+                </div>
               )}
             </Grid.Column>
           </Grid>
