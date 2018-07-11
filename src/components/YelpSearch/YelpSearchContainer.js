@@ -124,10 +124,12 @@ class YelpSearchContainer extends React.Component {
                 color={'brown'}
               />
             )}
-          <YelpCategoryFilter
-            getYelpResults={this.getYelpResults}
-            filterDistance={this.filterDistance}
-          />
+          {this.state.loading === false && (
+            <YelpCategoryFilter
+              getYelpResults={this.getYelpResults}
+              filterDistance={this.filterDistance}
+            />
+          )}
           {this.state.filteredResults.length > 0 &&
             this.state.loading === false && (
               <Header as="h2" block>
