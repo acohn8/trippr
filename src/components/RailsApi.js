@@ -1,6 +1,8 @@
 const url = "http://localhost:3000/api/v1";
 
-const token = localStorage.getItem("token");
+const token = () => {
+  return localStorage.getItem("token");
+};
 
 export default {
   getTrips: () =>
@@ -8,16 +10,16 @@ export default {
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json",
-        Authorization: `Bearer ${token}`
+        Authorization: `Bearer ${token()}`
       }
-    }).then(res => res.json()),
+    }),
 
   getTrip: id =>
     fetch(`${url}/trips/${id}`, {
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json",
-        Authorization: `Bearer ${token}`
+        Authorization: `Bearer ${token()}`
       }
     }).then(res => res.json()),
 
@@ -27,12 +29,10 @@ export default {
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json",
-        Authorization: `Bearer ${token}`
+        Authorization: `Bearer ${token()}`
       },
       body: JSON.stringify(tripData)
-    })
-      .then(res => res.json())
-      .catch(error => console.error(error)),
+    }),
 
   archiveTrip: id =>
     fetch(`${url}/trips/${id}`, {
@@ -40,7 +40,7 @@ export default {
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json",
-        Authorization: `Bearer ${token}`
+        Authorization: `Bearer ${token()}`
       },
       body: JSON.stringify({ status: false })
     }),
@@ -61,7 +61,7 @@ export default {
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json",
-        Authorization: `Bearer ${token}`
+        Authorization: `Bearer ${token()}`
       },
       body: JSON.stringify(bookmarkData)
     });
@@ -79,14 +79,13 @@ export default {
       method: "POST",
       headers: { "content-type": "application/json" },
       body: JSON.stringify(userInfo)
-    }).then(res => res.json()),
+    }),
 
-  getUser: () =>
+  getUser: jwtToken =>
     fetch(`${url}/user`, {
       headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-        Authorization: `Bearer ${token}`
+        "content-type": "application/json",
+        Authorization: `Bearer ${jwtToken}`
       }
-    }).then(res => res.json())
+    })
 };
