@@ -85,7 +85,11 @@ class MapDirections extends React.Component {
         'line-opacity': 0.8,
       },
     });
-    this.setState({ steps: response.routes['0'].legs['0'].steps });
+    this.setState({
+      steps: response.routes['0'].legs['0'].steps,
+      distance: response.routes['0'].distance,
+      time: response.routes['0'].duration,
+    });
   };
 
   addStartAndEnd = () => {
@@ -137,6 +141,8 @@ class MapDirections extends React.Component {
       width: '100%',
       minHeight: 400,
     };
+    const miles = Math.round(this.state.distance * 0.000621371192 * 10) / 10;
+    const minutes = Math.round(this.state.time / 60);
 
     return (
       <div>
@@ -144,7 +150,10 @@ class MapDirections extends React.Component {
         {this.state.steps.length > 0 && (
           <div>
             <Divider hidden />
-            <Header as="h4">Steps</Header>
+            <Header as="h3">
+              Steps
+              <Header.Subheader>{`${minutes} minutes (${miles} miles)`}</Header.Subheader>
+            </Header>
             <List animated verticalAlign="middle" divided relaxed>
               {this.state.steps.map(step => <MapDirectionList step={step} />)}
             </List>
