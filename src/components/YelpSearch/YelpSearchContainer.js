@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid, Loader, Item, Header, Label, Icon } from 'semantic-ui-react';
+import { Grid, Loader, Item, Header, Button, Icon, Divider } from 'semantic-ui-react';
 import distance from '@turf/distance';
 
 import YelpSearchCard from './YelpSearchCard';
@@ -137,7 +137,12 @@ class YelpSearchContainer extends React.Component {
               </Header>
             )}
         </Grid.Column>
-        {this.state.loading === true && <Loader active inline="centered" />}
+        {this.state.loading === true && (
+          <div>
+            <Loader active inline="centered" />
+            <Divider hidden />
+          </div>
+        )}
         {this.state.filteredResults.length > 0 &&
           this.state.loading === false && (
             <Grid columns={2}>
@@ -161,11 +166,13 @@ class YelpSearchContainer extends React.Component {
                   />
                 ) : (
                   <div>
+                    <Button basic as="a" onClick={this.removeDestination}>
+                      <Icon name="arrow left" />
+                      Map overview
+                    </Button>
                     <Header as="h2">
-                      <Label as="a" onClick={this.removeDestination}>
-                        <Icon name="arrow left" />
-                      </Label>
-                      Directions to {this.state.destination.name} ({this.state.directionsType})
+                      Directions to {this.state.destination.name}
+                      <Header.Subheader>{this.state.directionsType}</Header.Subheader>
                     </Header>
                     <MapDirectionsFilter setDirectionType={this.setDirectionType} />
                     <MapDirections

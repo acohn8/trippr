@@ -1,7 +1,7 @@
 import React from 'react';
 import mapboxgl from 'mapbox-gl';
 import bbox from '@turf/bbox';
-import { List, Header, Divider, Label, Icon, Form } from 'semantic-ui-react';
+import { List, Header, Divider } from 'semantic-ui-react';
 
 import MapDirectionList from './MapDirectionList';
 

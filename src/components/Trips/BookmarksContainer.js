@@ -1,6 +1,6 @@
 import React from 'react';
 import Bookmark from './Bookmark';
-import { Item, Header, Grid, Loader, Icon, Label } from 'semantic-ui-react';
+import { Item, Header, Grid, Loader, Icon, Button } from 'semantic-ui-react';
 import distance from '@turf/distance';
 
 import Map from '../Map/Map';
@@ -88,11 +88,13 @@ class BookmarksContainer extends React.Component {
                 />
               ) : (
                 <div>
+                  <Button basic as="a" onClick={this.removeDestination}>
+                    <Icon name="arrow left" />
+                    Map overview
+                  </Button>
                   <Header as="h2">
-                    <Label as="a" onClick={this.removeDestination}>
-                      <Icon name="arrow left" />
-                    </Label>
-                    Directions to {this.state.destination.name} ({this.state.directionsType})
+                    Directions to {this.state.destination.name}
+                    <Header.Subheader>{this.state.directionsType}</Header.Subheader>
                   </Header>
                   <MapDirectionsFilter setDirectionType={this.setDirectionType} />
                   <MapDirections
