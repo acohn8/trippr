@@ -70,7 +70,7 @@ class YelpSearchContainer extends React.Component {
   };
 
   filterDistance = data => {
-    let filteredResults;
+    let filteredResults = this.state.results.slice();
     let searchDistance;
     if (data === 1 || typeof data === 'undefined') {
       filteredResults = this.state.results.filter(result => result.distance <= 1).slice(0, 5);
