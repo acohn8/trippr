@@ -143,8 +143,8 @@ class YelpSearchContainer extends React.Component {
                 <Item.Group divided>
                   {this.state.filteredResults.map(result => (
                     <YelpSearchCard
-                      result={result}
                       key={result.id}
+                      result={result}
                       bookmark={this.props.bookmark}
                       showDirections={this.showDirections}
                     />

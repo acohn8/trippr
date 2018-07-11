@@ -27,6 +27,8 @@ class MapDirections extends React.Component {
     this.map = new mapboxgl.Map({
       container: this.mapContainer,
       style: 'mapbox://styles/mapbox/streets-v9',
+      center: this.props.userLocation,
+      zoom: 11,
     });
     this.fetchDirections();
   }

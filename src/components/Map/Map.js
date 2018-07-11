@@ -14,6 +14,8 @@ class Map extends React.Component {
     this.map = new mapboxgl.Map({
       container: this.mapContainer,
       style: 'mapbox://styles/mapbox/streets-v9',
+      center: this.props.userLocation,
+      zoom: 11,
     });
 
     this.map.on('load', () => {
@@ -70,7 +72,7 @@ class Map extends React.Component {
 
   createBoundingBox() {
     const boundingBox = bbox(this.map.getSource('venues')._data);
-    this.map.fitBounds(boundingBox, { padding: 15 });
+    this.map.fitBounds(boundingBox, { padding: 30 });
   }
 
   renderPoints = () => {
@@ -106,7 +108,6 @@ class Map extends React.Component {
   };
 
   render() {
-    console.log(this.props);
     const style = {
       position: 'relative',
       top: 0,
