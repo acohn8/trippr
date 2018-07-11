@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid, Loader, Item, Header } from 'semantic-ui-react';
+import { Grid, Loader, Item, Header, Label, Icon } from 'semantic-ui-react';
 import distance from '@turf/distance';
 
 import YelpSearchCard from './YelpSearchCard';
@@ -19,7 +19,7 @@ class YelpSearchContainer extends React.Component {
       filteredResults: [],
       searchDistance: '',
       destination: '',
-      directionsType: 'walking',
+      directionsType: 'driving',
     };
   }
 
@@ -97,13 +97,13 @@ class YelpSearchContainer extends React.Component {
     this.setState({ destination: '' });
   };
 
-  setDirectionType = data => {
+  setDirectionType = (event, data) => {
     let directionsType;
-    if (data === 1 || typeof data === 'undefined') {
+    if (data.value === 1 || typeof data.value === 'undefined') {
       directionsType = 'driving';
-    } else if (data === 2) {
+    } else if (data.value === 2) {
       directionsType = 'walking';
-    } else if (data === 3) {
+    } else if (data.value === 3) {
       directionsType = 'cycling';
     }
     this.setState({ directionsType: directionsType });
@@ -156,13 +156,19 @@ class YelpSearchContainer extends React.Component {
                   />
                 ) : (
                   <div>
+                    <Header as="h2">
+                      <Label as="a" onClick={this.removeDestination}>
+                        <Icon name="arrow left" />
+                      </Label>
+                      Directions to {this.state.destination.name} ({this.state.directionsType})
+                    </Header>
+                    <MapDirectionsFilter setDirectionType={this.setDirectionType} />
                     <MapDirections
                       userLocation={[this.props.longitude, this.props.latitude]}
                       destination={this.state.destination}
                       removeDestination={this.removeDestination}
                       directionsType={this.state.directionsType}
                     />
-                    <MapDirectionsFilter setDirectionType={this.setDirectionType} />
                   </div>
                 )}
               </Grid.Column>

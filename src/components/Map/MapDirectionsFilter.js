@@ -1,50 +1,12 @@
 import React from 'react';
-import { Form, Radio } from 'semantic-ui-react';
+import { Form, Radio, Button } from 'semantic-ui-react';
 
-class MapDirectionsFilter extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { value: 1 };
-  }
-
-  handleChange = (e, { value }) => {
-    this.setState({ value: value }, () => this.props.setDirectionType(this.state.value));
-  };
-
-  render() {
-    const { value } = this.state;
-    return (
-      <Form>
-        <Form.Group widths="equal">
-          <Form.Field>
-            <Form.Group inline>
-              <Form.Field
-                control={Radio}
-                label="Driving"
-                value={1}
-                checked={value === 1}
-                onChange={this.handleChange}
-              />
-              <Form.Field
-                control={Radio}
-                label="Walking"
-                value={2}
-                checked={value === 2}
-                onChange={this.handleChange}
-              />
-              <Form.Field
-                control={Radio}
-                label="Cycling"
-                value={3}
-                checked={value === 3}
-                onChange={this.handleChange}
-              />
-            </Form.Group>
-          </Form.Field>
-        </Form.Group>
-      </Form>
-    );
-  }
-}
+const MapDirectionsFilter = props => (
+  <Button.Group basic size="large" widths="3">
+    <Button icon="car" value={1} onClick={props.setDirectionType} />
+    <Button icon="male" value={2} onClick={props.setDirectionType} />
+    <Button icon="bicycle" value={3} onClick={props.setDirectionType} />
+  </Button.Group>
+);
 
 export default MapDirectionsFilter;

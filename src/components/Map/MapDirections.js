@@ -138,12 +138,6 @@ class MapDirections extends React.Component {
 
     return (
       <div>
-        <Header as="h2">
-          <Label as="a" onClick={this.props.removeDestination}>
-            <Icon name="arrow left" />
-          </Label>
-          Directions to {this.props.destination.name} ({this.props.directionsType})
-        </Header>
         <div style={style} ref={el => (this.mapContainer = el)} />
         {this.state.steps.length > 0 && (
           <div>
