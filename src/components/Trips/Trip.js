@@ -1,9 +1,17 @@
-import React from 'react';
-import { Segment, Icon, Divider, Button, Grid, Item, Header } from 'semantic-ui-react';
-import Moment from 'react-moment';
-import BookmarksContainer from './BookmarksContainer';
-import YelpSearchContainer from '../YelpSearch/YelpSearchContainer';
-import RailsApi from '../RailsApi';
+import React from "react";
+import {
+  Segment,
+  Icon,
+  Divider,
+  Button,
+  Grid,
+  Item,
+  Header
+} from "semantic-ui-react";
+import Moment from "react-moment";
+import BookmarksContainer from "./BookmarksContainer";
+import YelpSearchContainer from "../YelpSearch/YelpSearchContainer";
+import RailsApi from "../RailsApi";
 
 class Trip extends React.Component {
   constructor(props) {
@@ -11,19 +19,19 @@ class Trip extends React.Component {
     this.state = {
       trip: [],
       showBookmarks: false,
-      bookmarks: [],
+      bookmarks: []
     };
   }
 
   componentDidMount = () => {
     RailsApi.getTrip(this.props.match.params.tripId).then(trip =>
-      this.setState({ trip: trip, bookmarks: trip.bookmarks }),
+      this.setState({ trip: trip, bookmarks: trip.bookmarks })
     );
   };
 
   handleClick = () => {
     this.setState({
-      showBookmarks: !this.state.showBookmarks,
+      showBookmarks: !this.state.showBookmarks
     });
   };
 
@@ -35,10 +43,10 @@ class Trip extends React.Component {
           {
             ...this.state,
             showBookmarks: true,
-            bookmarks: [...this.state.bookmarks, json],
+            bookmarks: [...this.state.bookmarks, json]
           },
-          () => this.props.updateTrips(),
-        ),
+          () => this.props.updateTrips()
+        )
       );
   };
 
@@ -56,14 +64,29 @@ class Trip extends React.Component {
                   </Item.Header>
                   <Item.Meta>
                     <span>
-                      {<Moment format="MMMM Do YYYY">{this.state.trip.start_date}</Moment>} to{' '}
-                      {<Moment format="MMMM Do YYYY">{this.state.trip.end_date}</Moment>}
+                      {
+                        <Moment format="MMMM Do YYYY">
+                          {this.state.trip.start_date}
+                        </Moment>
+                      }{" "}
+                      to{" "}
+                      {
+                        <Moment format="MMMM Do YYYY">
+                          {this.state.trip.end_date}
+                        </Moment>
+                      }
                     </span>
                   </Item.Meta>
                   {this.state.bookmarks.length > 0 && (
                     <Item.Extra>
-                      <Button floated="right" onClick={this.handleClick} primary>
-                        {this.state.showBookmarks ? 'Add Restaurants' : 'View Bookmarks'}
+                      <Button
+                        floated="right"
+                        onClick={this.handleClick}
+                        primary
+                      >
+                        {this.state.showBookmarks
+                          ? "Add Restaurants"
+                          : "View Bookmarks"}
                         <Icon name="right chevron" />
                       </Button>
                     </Item.Extra>

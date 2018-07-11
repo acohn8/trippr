@@ -15,6 +15,14 @@ class Login extends React.Component {
     };
   }
 
+  componentDidMount() {
+    if (localStorage.getItem("token")) {
+      RailsApi.getUser(localStorage.getItem("token"))
+        .then(res => res.json())
+        .then(json => this.props.setUser(json));
+    }
+  }
+
   changeUserState = () => {
     this.setState({
       newUser: !this.state.newUser
@@ -56,15 +64,13 @@ class Login extends React.Component {
       auth: { email: this.state.email, password: this.state.password }
     })
       .then(res => res.json())
-      .then(json => {
-        console.log(json.jwt);
-        localStorage.setItem("token", json.jwt);
-      })
-      .then(
-        RailsApi.getUser()
+      .then(token => {
+        console.log(token.jwt);
+        localStorage.setItem("token", token.jwt);
+        RailsApi.getUser(token.jwt)
           .then(res => res.json())
-          .then(json => this.props.setUser(json))
-      );
+          .then(json => this.props.setUser(json));
+      });
   };
 
   createUser = () => {

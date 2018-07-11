@@ -71,7 +71,12 @@ class NewTripContainer extends React.Component {
       status: true,
       user_id: this.props.user.id
     };
-    RailsApi.postTrip(tripData).then(res => this.props.updateTrips());
+    RailsApi.postTrip(tripData)
+      .then(res => res.json())
+      .then(json => {
+        this.props.updateTrips();
+        this.props.history.push(`/trips/${json.id}`);
+      });
   };
 
   render() {

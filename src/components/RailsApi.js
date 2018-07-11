@@ -81,12 +81,11 @@ export default {
       body: JSON.stringify(userInfo)
     }),
 
-  getUser: () =>
+  getUser: jwtToken =>
     fetch(`${url}/user`, {
-      method: "POST",
       headers: {
         "content-type": "application/json",
-        Authorization: `Bearer ${token()}`
+        Authorization: `Bearer ${jwtToken}`
       }
     })
 };

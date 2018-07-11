@@ -35,11 +35,7 @@ class App extends React.Component {
     RailsApi.getTrips()
       .then(res => res.json())
       .then(trips => {
-        console.log(trips);
-        this.setState({ trips: trips }, () => {
-          console.log(this.state);
-          this.props.history.push("/");
-        });
+        this.setState({ trips: trips });
       });
   };
 
