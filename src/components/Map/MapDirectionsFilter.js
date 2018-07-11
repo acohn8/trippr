@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Radio, Button } from 'semantic-ui-react';
+import { Button } from 'semantic-ui-react';
 
 const MapDirectionsFilter = props => (
   <Button.Group basic size="large" widths="3">
